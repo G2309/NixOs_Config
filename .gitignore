@@ -1,6 +1,20 @@
-# Ignore build outputs from performing a nix-build or `nix build` command
+# Nix
 result
 result-*
+.direnv/
 
-# Ignore automatically generated direnv output
-.direnv
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (never commit these!)
+secrets/
+*.secret
+*.key
