@@ -1,4 +1,3 @@
-# home/modules/hypr/settings.nix
 { config, lib, pkgs, ... }:
 
 {
@@ -44,7 +43,6 @@
     general = {
       gaps_in = 2;
       gaps_out = 5;
-      border_size = 2;
       "col.active_border" = "$mauve $maroon 45deg";
       "col.inactive_border" = "$surface0";
       resize_on_border = false;

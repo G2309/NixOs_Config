@@ -33,7 +33,6 @@
     libnotify
     dunst
     neovim
-    rofi
   ];
 
   xdg = {

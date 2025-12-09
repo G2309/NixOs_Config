@@ -4,6 +4,7 @@
   imports = [
     ../modules/kitty
     ../modules/hypr
+    ../modules/rofi
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
