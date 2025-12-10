@@ -4,13 +4,9 @@
   imports = [
     ../modules/kitty
     ../modules/hypr
-    ../modules/waybar
     ../modules/rofi
-    ../modules/swaylock
-    ../modules/wlogout
-    ../modules/nvim
-    ../modules/shell
-    ../modules/scripts
+    ../modules/zsh
+    ../modules/gaming
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [

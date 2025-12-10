@@ -33,6 +33,7 @@
     libnotify
     dunst
     neovim
+    ranger
   ];
 
   xdg = {
