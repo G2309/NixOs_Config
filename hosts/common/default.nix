@@ -27,14 +27,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  boot = {
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    kernelPackages = pkgs.linuxPackages_latest;
-  };
-
   networking = {
     hostName = hostname;
     networkmanager.enable = true;
@@ -76,10 +68,6 @@
   };
 
   services = {
-    displayManager.sddm = {
-      enable = true;
-      wayland.enable = true;
-    };
     pipewire = {
       enable = true;
       alsa.enable = true;
@@ -111,7 +99,6 @@
     ripgrep
     fd
     tree
-    htop
     wl-clipboard
     grim
     slurp
