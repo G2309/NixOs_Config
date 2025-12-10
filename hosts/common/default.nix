@@ -55,8 +55,10 @@
     isNormalUser = true;
     description = "Gustavo";
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "input" ];
-    shell = pkgs.bash;
+    shell = pkgs.zsh;
   };
+  
+  programs.zsh.enable = true;
 
   security = {
     rtkit.enable = true;
@@ -103,6 +105,7 @@
     grim
     slurp
     polkit_gnome
+    bat
   ];
 
   fonts = {
