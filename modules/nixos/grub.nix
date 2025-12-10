@@ -25,10 +25,7 @@
       '';
     };
   };
-
-  boot.kernelParams = [
-    "quiet"
-    "loglevel=3"
-    "nvidia_drm.modeset=1" 
-  ];
+  
+  # grub param
+  boot.kernelParams = [ "quiet" "loglevel=3"];
 }

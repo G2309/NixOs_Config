@@ -26,9 +26,17 @@
       plugins = [ "git" "sudo" "dirhistory" ];
     };
 
-    initExtra = ''
+    initContent = ''
       bindkey '^[[A' history-search-backward
       bindkey '^[[B' history-search-forward
     '';
   };
+  
+  home.packages = with pkgs; [
+    eza
+    bat
+    fd
+    ripgrep
+    fzf
+  ];
 }
