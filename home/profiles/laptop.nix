@@ -7,6 +7,7 @@
     ../modules/rofi
     ../modules/zsh
     ../modules/ranger
+    ../modules/dunst
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [

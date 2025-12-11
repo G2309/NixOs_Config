@@ -113,9 +113,11 @@
     packages = with pkgs; [
       noto-fonts
       noto-fonts-color-emoji
+      fira-code
+      nerd-fonts.fira-code
     ];
     fontconfig.defaultFonts = {
-      monospace = [ "JetBrainsMono Nerd Font" ];
+      monospace = [ "FiraCode Nerd Font" ];
       sansSerif = [ "Noto Sans" ];
       serif = [ "Noto Serif" ];
     };

@@ -30,8 +30,6 @@
     swaylock-effects
     wlogout
     waybar
-    libnotify
-    dunst
     neovim
     ranger
   ];
