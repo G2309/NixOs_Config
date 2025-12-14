@@ -1,9 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos/gaming.nix
+    inputs.lsfg-vk-flake.nixosModules.default
+    ../../modules/nixos/coolercontrol.nix
   ];
 
    # nvidia desktop - con graficas turing en adelante las puede apagar si no se usan
@@ -23,4 +25,9 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
+
+  services.lsfg-vk = {
+    enable = true;
+    ui.enable = true;
+  };
 }

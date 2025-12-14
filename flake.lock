@@ -38,6 +38,27 @@
         "type": "github"
       }
     },
+    "lsfg-vk-flake": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1756367273,
+        "narHash": "sha256-u7/qG5xQxW+o51R2lBPj0NxU3oFrUwj78UlCKKNHGAc=",
+        "owner": "pabloaul",
+        "repo": "lsfg-vk-flake",
+        "rev": "62aadfc844b2002abe47cbbc9dfd028033376248",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pabloaul",
+        "ref": "main",
+        "repo": "lsfg-vk-flake",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1763966396,
@@ -74,6 +95,7 @@
       "inputs": {
         "catppuccin": "catppuccin",
         "home-manager": "home-manager",
+        "lsfg-vk-flake": "lsfg-vk-flake",
         "nixpkgs": "nixpkgs_2",
         "silentSDDM": "silentSDDM"
       }

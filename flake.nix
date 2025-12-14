@@ -12,10 +12,14 @@
     silentSDDM = {
       url = "github:uiriansan/SilentSDDM";
       inputs.nixpkgs.follows = "nixpkgs";
-   };
+    };
+    lsfg-vk-flake = {
+      url = "github:pabloaul/lsfg-vk-flake/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, ... }@inputs:
   let
     system = "x86_64-linux";
     
