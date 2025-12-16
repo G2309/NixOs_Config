@@ -32,6 +32,7 @@
     waybar
     neovim
     ranger
+    webcord
   ];
 
   xdg = {

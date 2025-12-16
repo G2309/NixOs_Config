@@ -6,6 +6,7 @@
     ../../modules/nixos/gaming.nix
     inputs.lsfg-vk-flake.nixosModules.default
     ../../modules/nixos/coolercontrol.nix
+    ../../modules/nixos/cpu-governors.nix
   ];
 
    # nvidia desktop - con graficas turing en adelante las puede apagar si no se usan
