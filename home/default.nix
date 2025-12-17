@@ -33,6 +33,7 @@
     neovim
     ranger
     webcord
+    inputs.anicli-es.packages.x86_64-linux.default
   ];
 
   xdg = {
@@ -52,7 +53,7 @@
     gtk.enable = true;
     package = pkgs.catppuccin-cursors.macchiatoMauve;
     name = "catppuccin-macchiato-mauve-cursors";
-    size = 24;
+    size = 18;
   };
 
   gtk = {
@@ -71,4 +72,5 @@
     platformTheme.name = "kvantum";
     style.name = "kvantum";
   };
+
 }

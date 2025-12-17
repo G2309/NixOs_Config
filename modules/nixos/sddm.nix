@@ -24,4 +24,16 @@ in
       };
     };
   };
+
+  systemd.services.sddm-theme-fix = {
+    description = "Restart SDDM to apply theme";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "display-manager.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
+      ExecStart = "${pkgs.systemd}/bin/systemctl restart display-manager";
+      RemainAfterExit = true;
+    };
+  };
 }

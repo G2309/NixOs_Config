@@ -17,9 +17,17 @@
       url = "github:pabloaul/lsfg-vk-flake/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    anicli-es = {
+      url = "github:G2309/ani-cliES";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, ... }@inputs:
   let
     system = "x86_64-linux";
     

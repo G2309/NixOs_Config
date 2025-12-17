@@ -9,6 +9,7 @@
     ../modules/ranger
     ../modules/dunst
     ../modules/gaming
+    ../modules/spotify
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
