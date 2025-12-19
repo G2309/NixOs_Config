@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     lutris
-    wine
+    wineWowPackages.staging
     winetricks
   ];
 }
