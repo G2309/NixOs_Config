@@ -8,6 +8,7 @@
     ../modules/zsh
     ../modules/ranger
     ../modules/dunst
+    ../modules/neovim
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [

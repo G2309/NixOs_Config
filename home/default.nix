@@ -30,7 +30,6 @@
     swaylock-effects
     wlogout
     waybar
-    neovim
     ranger
     webcord
     inputs.anicli-es.packages.x86_64-linux.default
