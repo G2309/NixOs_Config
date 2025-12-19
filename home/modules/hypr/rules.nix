@@ -18,8 +18,6 @@
       "center, class:^(Rofi)$"
       "stayfocused, class:^(Rofi)$"
       "float, title:^(Firefox — Sharing Indicator)$"
-      "opacity 0.95 0.85, class:^(kitty)$"
-      "opacity 0.95 0.85, class:^(Alacritty)$"
     ];
 
     layerrule = [
