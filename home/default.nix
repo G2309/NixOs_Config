@@ -9,7 +9,7 @@
   home = {
     username = "gustavo";
     homeDirectory = "/home/gustavo";
-    stateVersion = "25.05";
+    stateVersion = "26.05";
   };
 
   programs.home-manager.enable = true;
@@ -31,7 +31,7 @@
     wlogout
     waybar
     ranger
-    webcord
+    vesktop
     inputs.anicli-es.packages.x86_64-linux.default
   ];
 

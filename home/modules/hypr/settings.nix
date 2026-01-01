@@ -85,10 +85,6 @@
       vfr = true;
     };
 
-    experimental = {
-      xx_color_management_v4 = true;
-    };
-
     input = {
       kb_layout = "us,es";
       kb_options = "grp:win_space_toggle";
@@ -106,8 +102,8 @@
     };
 
     env = [
-      "XCURSOR_SIZE,24"
-      "HYPRCURSOR_SIZE,24"
+      "XCURSOR_SIZE,18"
+      "HYPRCURSOR_SIZE,18"
     ];
   };
 }

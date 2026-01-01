@@ -20,12 +20,5 @@
       "float, title:^(Firefox — Sharing Indicator)$"
     ];
 
-    layerrule = [
-      "blur, waybar"
-      "blur, rofi"
-      "blur, notifications"
-      "ignorezero, waybar"
-      "ignorezero, rofi"
-    ];
   };
 }
