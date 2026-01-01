@@ -11,10 +11,12 @@
   ];
 
    # nvidia desktop - con graficas turing en adelante las puede apagar si no se usan
-   hardware.nvidia = {
+  hardware.nvidia = {
     open = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # CUDA para cuando toque 
   # environment.systemPackages = with pkgs; [
