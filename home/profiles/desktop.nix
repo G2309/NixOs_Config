@@ -11,6 +11,7 @@
     ../modules/gaming
     ../modules/spotify
     ../modules/neovim
+    ../modules/sunshine
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
