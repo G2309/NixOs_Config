@@ -15,7 +15,7 @@
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
-    "DP-2,2560x1440@120,0x0,1"
+    "DP-2,2560x1440@120,0x0,1,vrr,2"
   ];
 
   home.file.".config/hypr/hyprpaper.conf".text = lib.mkForce ''

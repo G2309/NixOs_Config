@@ -13,7 +13,7 @@
    # nvidia desktop - con graficas turing en adelante las puede apagar si no se usan
   hardware.nvidia = {
     open = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
