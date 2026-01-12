@@ -28,11 +28,11 @@
     btop
     hyprpaper
     swaylock-effects
-    wlogout
-    waybar
     ranger
     vesktop
     inputs.anicli-es.packages.x86_64-linux.default
+    networkmanagerapplet
+    quickshell
   ];
 
   xdg = {
