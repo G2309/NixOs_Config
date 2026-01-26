@@ -9,6 +9,7 @@
     ../../modules/nixos/cpu-governors.nix
     ../../modules/nixos/sunshine.nix
     ../../modules/nixos/openrgb.nix
+    ../../modules/nixos/docker.nix
   ];
 
    # nvidia desktop - con graficas turing en adelante las puede apagar si no se usan
