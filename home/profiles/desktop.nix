@@ -19,12 +19,23 @@
   ];
 
   home.file.".config/hypr/hyprpaper.conf".text = lib.mkForce ''
-    preload = ~/Pictures/Wallpaper/1.png
-    wallpaper = DP-2,~/Pictures/Wallpaper/1.png
+  wallpaper {
+    monitor = DP-2
+    path = /home/gustavo/Pictures/Wallpaper/1.png
+    fit_mode = cover
+  }
+  
+  wallpaper {
+    monitor =
+    path = /home/gustavo/Pictures/Wallpaper/1.png
+    fit_mode = cover
+  }
   '';
+  
 
   home.packages = with pkgs; [
     nvtopPackages.nvidia
+    qemu_kvm
   ];
 
 }
