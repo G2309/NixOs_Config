@@ -21,10 +21,12 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # CUDA para cuando toque 
-  # environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
   #   cudatoolkit
   #   nvtopPackages.nvidia
-  # ];
+      mangohud
+      azahar
+  ];
 
   hardware.bluetooth = {
     enable = true;
