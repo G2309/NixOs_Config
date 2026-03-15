@@ -8,5 +8,6 @@
     ./telescope.nix
     ./ui.nix
     ./misc.nix
+    ./jupyter.nix
   ];
 }

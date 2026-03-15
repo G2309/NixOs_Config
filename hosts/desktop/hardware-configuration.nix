@@ -32,11 +32,6 @@
       fsType = "ext4";
     };
 
-  fileSystems."/mnt/NVME" =
-    { device = "/dev/disk/by-uuid/a27a1b51-4fcf-4889-b7ae-bac25058f706";
-      fsType = "f2fs";
-    };
-
   swapDevices = [ ];
 
   networking.useDHCP = lib.mkDefault true;

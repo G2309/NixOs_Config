@@ -23,6 +23,27 @@
         GRUB_TERMINAL_INPUT=console
         GRUB_DISABLE_RECOVERY=true
       '';
+      extraEntries = ''
+        # Arch Linux
+        menuentry "Arch Linux" --class arch --class gnu-linux --class gnu --class os {
+          insmod part_gpt
+          insmod fat
+          insmod search_fs_uuid
+          insmod chain
+          search --no-floppy --fs-uuid --set=root 79AD-DCA4
+          chainloader /EFI/BOOT/BOOTX64.EFI 
+        }
+
+        # FreeBSD
+        menuentry "FreeBSD" --class freebsd --class bsd --class os {
+          insmod part_gpt
+          insmod fat
+          insmod search_fs_uuid
+          insmod chain
+          search --no-floppy --fs-uuid --set=root 79AD-DCA4
+          chainloader /EFI/freebsd/loader.efi
+        }
+      '';
     };
   };
   
