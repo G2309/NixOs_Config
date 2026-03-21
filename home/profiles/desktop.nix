@@ -36,6 +36,7 @@
   home.packages = with pkgs; [
     nvtopPackages.nvidia
     qemu_kvm
+    python3
   ];
 
 }

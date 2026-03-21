@@ -7,6 +7,7 @@
     ./rules.nix
     ./animations.nix
     ./autostart.nix
+    ./scripts.nix
   ];
 
   wayland.windowManager.hyprland = {

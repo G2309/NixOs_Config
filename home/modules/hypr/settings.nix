@@ -43,11 +43,10 @@
     general = {
       gaps_in = 2;
       gaps_out = 5;
-      "col.active_border" = "$mauve $maroon 45deg";
-      "col.inactive_border" = "$surface0";
       resize_on_border = false;
       allow_tearing = false;
       layout = "dwindle";
+      border_size = 0;
     };
 
     decoration = {
