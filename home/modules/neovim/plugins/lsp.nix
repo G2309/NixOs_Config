@@ -8,7 +8,7 @@
       pyright
       rust-analyzer
       typescript-language-server
-      nodePackages.vscode-langservers-extracted
+      vscode-langservers-extracted
       gopls
     ];
 

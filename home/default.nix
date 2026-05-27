@@ -33,6 +33,7 @@
     inputs.anicli-es.packages.x86_64-linux.default
     networkmanagerapplet
     quickshell
+    lsof
   ];
 
   xdg = {
