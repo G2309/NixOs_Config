@@ -4,14 +4,13 @@
   imports = [
     ../modules/kitty
     ../modules/hypr
-    ../modules/rofi
     ../modules/zsh
     ../modules/ranger
-    ../modules/dunst
     ../modules/gaming
     ../modules/spotify
     ../modules/neovim
     ../modules/sunshine
+    ../modules/caelestia
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
@@ -32,7 +31,10 @@
     fit_mode = cover
   }
   '';
-  
+
+  home.file.".config/caelestia/monitors/HDMI-A-2/shell.json".text = builtins.toJSON {
+    bar.persistent = false;
+  };
 
   home.packages = with pkgs; [
     nvtopPackages.nvidia

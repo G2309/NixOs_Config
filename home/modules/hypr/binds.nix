@@ -13,7 +13,7 @@
       "$mainMod, F, exec, firefox"
       "$mainMod, N, exec, $terminal -e $editor"
       "$mainMod, E, exec, $fileManager"
-      "$mainMod, R, exec, $menu"
+      "$mainMod, R, exec, caelestia shell drawers toggle launcher"
 
       "$mainMod, W, killactive,"
       "$mainMod SHIFT, E, exit,"
@@ -32,7 +32,7 @@
       ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
 
       "$mainMod, LEFT, exec, change-wallpaper"
-      "$mainMod, TAB, exec, toggle-waybar"
+      "$mainMod, TAB, exec, toggle-caelestia"
 
       "$mainMod, V, togglefloating,"
       "$mainMod, B, pseudo,"

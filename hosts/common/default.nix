@@ -106,6 +106,8 @@
     slurp
     polkit_gnome
     bat
+    app2unit
+    fish
   ];
 
   fonts = {

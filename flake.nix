@@ -25,9 +25,13 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, caelestia-shell, ... }@inputs:
   let
     system = "x86_64-linux";
     
@@ -39,17 +43,17 @@
         ./hosts/${hostname}
         home-manager.nixosModules.home-manager
         {
-           nixpkgs.overlays = [
-              (final: prev: {
-                openldap = prev.openldap.overrideAttrs (old: {
-                  doCheck = false;
-                });
-              })
+          nixpkgs.overlays = [
+            (final: prev: {
+              openldap = prev.openldap.overrideAttrs (_: {
+                doCheck = false;
+              });
+            })
           ];
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-	    backupFileExtension = "backup";
+            backupFileExtension = "backup";
             extraSpecialArgs = { inherit inputs hostname; };
             users.gustavo = import ./home;
           };

@@ -7,7 +7,7 @@
       "hyprpaper"
       "bluetoothctl power on"
       "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-      "dunst"
+      #"dunst"
       "openrgb -p purple"
     ];
 

@@ -4,8 +4,8 @@ let
     DIR="$HOME/Pictures/Wallpaper"
     STATE_FILE="$HOME/.cache/current_wallpaper_idx"
 
-    PICS=("$DIR"/*.png)
-    TOTAL=''${#PICS[@]}
+    mapfile -t PICS < <(find "$DIR" -maxdepth 1 -name "*.png" | sort -V)
+    TOTAL="''${#PICS[@]}"
 
     if [ "$TOTAL" -eq 0 ]; then
       echo "No wallpapers in $DIR"
@@ -31,7 +31,17 @@ let
     sleep 0.5
     hyprctl hyprpaper unload unused
   '';
+
+  toggle-caelestia = pkgs.writeShellScriptBin "toggle-caelestia" ''
+    if pgrep -x "qs" > /dev/null 2>&1; then
+      caelestia shell drawers toggle dashboard
+    else
+      # Si no está corriendo, inícialo
+      caelestia-shell &
+    fi
+  '';
+
 in
 {
-  home.packages = [ change-wallpaper pkgs.jq ];
+  home.packages = [ change-wallpaper toggle-caelestia pkgs.jq ];
 }
