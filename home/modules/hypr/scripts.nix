@@ -23,21 +23,19 @@ let
     echo "$IDX" > "$STATE_FILE"
 
     hyprctl hyprpaper preload "$NEXT_WP"
-
     hyprctl monitors -j | ${pkgs.jq}/bin/jq -r '.[].name' | while read -r monitor; do
       hyprctl hyprpaper wallpaper "$monitor,$NEXT_WP"
     done
-
     sleep 0.5
     hyprctl hyprpaper unload unused
   '';
 
+  # Super+Tab: para/inicia el servicio systemd de caelestia
   toggle-caelestia = pkgs.writeShellScriptBin "toggle-caelestia" ''
-    if pgrep -x "qs" > /dev/null 2>&1; then
-      caelestia shell drawers toggle dashboard
+    if systemctl --user is-active --quiet caelestia.service; then
+      systemctl --user stop caelestia.service
     else
-      # Si no está corriendo, inícialo
-      caelestia-shell &
+      systemctl --user start caelestia.service
     fi
   '';
 

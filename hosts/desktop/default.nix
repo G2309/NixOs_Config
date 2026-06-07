@@ -20,12 +20,17 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.kernelParams = [
+    "nvidia.NVreg_DynamicPowerManagement=0x02"
+  ];
+
   # CUDA para cuando toque 
   environment.systemPackages = with pkgs; [
   #   cudatoolkit
   #   nvtopPackages.nvidia
       mangohud
       azahar
+      linuxPackages_latest.nvidia_x11
   ];
 
   hardware.bluetooth = {
