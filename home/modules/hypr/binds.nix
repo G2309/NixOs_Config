@@ -1,5 +1,10 @@
 # home/modules/hypr/binds.nix
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   wayland.windowManager.hyprland.settings = {
@@ -31,7 +36,6 @@
 
       "$mainMod, V, togglefloating,"
       "$mainMod, B, pseudo,"
-      "$mainMod, C, togglesplit,"
       "$mainMod, M, fullscreen, 1"
       "$mainMod SHIFT, M, fullscreen, 0"
 

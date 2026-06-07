@@ -39,6 +39,13 @@
         ./hosts/${hostname}
         home-manager.nixosModules.home-manager
         {
+           nixpkgs.overlays = [
+              (final: prev: {
+                openldap = prev.openldap.overrideAttrs (old: {
+                  doCheck = false;
+                });
+              })
+          ];
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;

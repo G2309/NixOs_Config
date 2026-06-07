@@ -2,8 +2,8 @@
 
 {
   home.packages = with pkgs; [
-    lutris
-    wineWowPackages.staging
+    (lutris.override { })
+    wineWow64Packages.staging
     winetricks
   ];
 }

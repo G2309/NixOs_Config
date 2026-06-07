@@ -14,6 +14,7 @@
     enable = true;
     xwayland.enable = true;
     systemd.enable = true;
+    configType = "hyprlang";
   };
 
   home.sessionVariables = {

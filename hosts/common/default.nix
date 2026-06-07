@@ -123,5 +123,6 @@
     };
   };
 
+  services.dbus.implementation = "broker";
   system.stateVersion = "25.05";
 }
