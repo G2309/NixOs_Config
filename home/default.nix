@@ -16,8 +16,10 @@
 
   catppuccin = {
     enable = true;
+    autoEnable = true;
     flavor = "macchiato";
     accent = "mauve";
+    hyprland.enable= false;
   };
 
   home.packages = with pkgs; [

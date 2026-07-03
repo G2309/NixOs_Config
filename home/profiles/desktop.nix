@@ -14,7 +14,7 @@
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
-    "DP-2,2560x1440@180,0x0,1,vrr,2"
+    "DP-2,2560x1440@180,0x0,1"
     "HDMI-A-2,1024x768@75,-1024x0,1"
   ];
 

@@ -80,11 +80,6 @@
       disable_splash_rendering = true;
       disable_hyprland_logo = true;
       force_default_wallpaper = 0;
-      vrr = 2;
-    };
-
-    render = {
-      direct_scanout = true;  # necesario para que VRR funcione en juegos
     };
 
     input = {
