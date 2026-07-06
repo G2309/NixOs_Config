@@ -30,7 +30,6 @@
   #   nvtopPackages.nvidia
       mangohud
       azahar
-      linuxPackages_latest.nvidia_x11
   ];
 
   hardware.bluetooth = {
