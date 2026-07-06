@@ -40,6 +40,7 @@
     nvtopPackages.nvidia
     qemu_kvm
     python3
+    keet
   ];
 
 }
