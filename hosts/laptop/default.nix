@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/nixos/nvidia.nix
   ];
 
   services = {
@@ -19,27 +20,22 @@
   };
 
   programs.light.enable = true;
-  users.users.gustavo.extraGroups = [ "video" ];
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      intel-media-driver
-      intel-vaapi-driver
-      libva-vdpau-driver
-      libvdpau-va-gl
-    ];
-  };
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-media-driver
+    intel-vaapi-driver
+    libva-vdpau-driver
+    libvdpau-va-gl
+  ];
 
-   hardware.nvidia = {
+  hardware.nvidia = {
     open = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-    
+
     prime = {
       offload = {
         enable = true;
-        enableOffloadCmd = true; 
+        enableOffloadCmd = true;
       };
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";

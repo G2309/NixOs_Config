@@ -27,6 +27,15 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  # Graficos genericos
+  hardware = {
+    enableRedistributableFirmware = true;
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+  };
+
   networking = {
     hostName = hostname;
     networkmanager.enable = true;
