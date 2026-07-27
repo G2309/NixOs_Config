@@ -85,6 +85,24 @@
         "type": "github"
       }
     },
+    "claude-code": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1785013936,
+        "narHash": "sha256-YaOA+gfLQRTxSrKzani2xz5TYSG9T82yEUPTOWBP95U=",
+        "owner": "ryoppippi",
+        "repo": "nix-claude-code",
+        "rev": "fcc7811a78f40da2f520866dc23d7b65cffa6c7c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ryoppippi",
+        "repo": "nix-claude-code",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -158,6 +176,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1783776592,
+        "narHash": "sha256-UgCQzxeWI75XM8G+hPrPh+MKzEPjG3SpAj7dtqSbksA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e7a3ca8092b61ff85b6a45bf863ea2b2d6a661b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1781577229,
         "narHash": "sha256-lrp67w8AulE9Ks53n27I45ADSzbOCn4H+CNW1Ck8B+8=",
         "owner": "nixos",
@@ -198,9 +232,10 @@
         "anicli-es": "anicli-es",
         "caelestia-shell": "caelestia-shell",
         "catppuccin": "catppuccin",
+        "claude-code": "claude-code",
         "home-manager": "home-manager",
         "lsfg-vk-flake": "lsfg-vk-flake",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "silentSDDM": "silentSDDM",
         "spicetify-nix": "spicetify-nix"
       }

@@ -31,6 +31,8 @@
   boot.kernelParams = [
     "nvidia.NVreg_DynamicPowerManagement=0x02"
   ];
+  nixpkgs.config.allowUnfreePredicate = pkg: 
+    builtins.elem (pkgs.lib.getName pkg) [ "claude" ];
 
   #===
 
@@ -39,6 +41,9 @@
     # nvtopPackages.nvidia
     mangohud
     azahar
+    lact
+    unityhub
+    inputs.claude-code.packages.x86_64-linux.default
   ];
 
   # =========================================================================
@@ -56,7 +61,9 @@
     enable = true;
     powerOnBoot = true;
   };
+  
   services.blueman.enable = true;
+  services.lact.enable = true;
 
   services.lsfg-vk = {
     enable = true;

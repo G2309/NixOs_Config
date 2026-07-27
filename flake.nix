@@ -29,9 +29,10 @@
       url = "github:caelestia-dots/shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    claude-code.url = "github:ryoppippi/nix-claude-code";
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, caelestia-shell, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, caelestia-shell, claude-code, ... }@inputs:
   let
     system = "x86_64-linux";
     
