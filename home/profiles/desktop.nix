@@ -43,4 +43,5 @@
     keet
   ];
 
+  services.easyeffects.enable = true;
 }

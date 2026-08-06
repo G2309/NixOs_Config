@@ -36,6 +36,7 @@
     networkmanagerapplet
     quickshell
     lsof
+    pavucontrol
   ];
 
   xdg = {

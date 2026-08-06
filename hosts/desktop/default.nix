@@ -13,6 +13,7 @@
     ../../modules/nixos/sunshine.nix
     ../../modules/nixos/openrgb.nix
     ../../modules/nixos/docker.nix
+    ../../modules/nixos/realtek.nix
   ];
 
   # =========================================================================
@@ -42,8 +43,8 @@
     mangohud
     azahar
     lact
-    unityhub
     inputs.claude-code.packages.x86_64-linux.default
+    inputs.opencode.packages.x86_64-linux.default
   ];
 
   # =========================================================================
