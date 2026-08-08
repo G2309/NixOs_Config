@@ -11,6 +11,7 @@
     ../modules/neovim
     ../modules/sunshine
     ../modules/caelestia
+    ../modules/gdrive
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
