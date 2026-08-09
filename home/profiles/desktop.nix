@@ -43,6 +43,4 @@
     python3
     keet
   ];
-
-  services.easyeffects.enable = true;
 }
