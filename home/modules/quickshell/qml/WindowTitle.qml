@@ -3,7 +3,6 @@ import QtQuick
 import QtQuick.Layouts
 
 Text {
-    Layout.maximumWidth: 380
     elide: Text.ElideRight
     color: Theme.subtext0
     font.pixelSize: 13

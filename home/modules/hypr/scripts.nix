@@ -30,9 +30,12 @@ let
     hyprctl hyprpaper unload unused
   '';
 
+  # quickshell runs as a wrapped binary (.quickshell-wrapped under the hood),
+  # so pgrep/pkill must match on the substring rather than -x the exact
+  # "quickshell" name, or they'd never find the running process.
   toggle-quickshell = pkgs.writeShellScriptBin "toggle-quickshell" ''
-    if ${pkgs.procps}/bin/pgrep -x quickshell > /dev/null; then
-      ${pkgs.procps}/bin/pkill -x quickshell
+    if ${pkgs.procps}/bin/pgrep quickshell > /dev/null; then
+      ${pkgs.procps}/bin/pkill quickshell
     else
       ${pkgs.quickshell}/bin/quickshell &
       disown
