@@ -25,15 +25,11 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    caelestia-shell = {
-      url = "github:caelestia-dots/shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     claude-code.url = "github:ryoppippi/nix-claude-code";
     opencode.url = "github:AodhanHayter/opencode-flake";
   };
 
-  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, caelestia-shell, claude-code, opencode, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, claude-code, opencode, ... }@inputs:
   let
     system = "x86_64-linux";
     

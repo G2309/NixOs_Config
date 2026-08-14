@@ -9,6 +9,7 @@
     ../modules/ranger
     ../modules/dunst
     ../modules/neovim
+    ../modules/quickshell
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
@@ -19,8 +20,4 @@
     preload = ~/Pictures/Wallpaper/1.png
     wallpaper = ,~/Pictures/Wallpaper/1.png
   '';
-
-  home.packages = with pkgs; [
-    brightnessctl
-  ];
 }

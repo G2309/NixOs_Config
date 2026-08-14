@@ -51,6 +51,11 @@ let
         --conflict-resolve newer
         --conflict-loser pathname
         --max-delete 25
+        # Los capitulos en Drive son Google Docs nativos. Sin este flag,
+        # subir un .docx editado en local falla con "can't update google
+        # document type" y aborta el bisync completo, dejandolo en estado
+        # que exige --resync para recuperarse.
+        --drive-import-formats docx
         --log-level INFO
       )
 

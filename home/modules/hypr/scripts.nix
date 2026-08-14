@@ -30,16 +30,7 @@ let
     hyprctl hyprpaper unload unused
   '';
 
-  # Super+Tab: para/inicia el servicio systemd de caelestia
-  toggle-caelestia = pkgs.writeShellScriptBin "toggle-caelestia" ''
-    if systemctl --user is-active --quiet caelestia.service; then
-      systemctl --user stop caelestia.service
-    else
-      systemctl --user start caelestia.service
-    fi
-  '';
-
 in
 {
-  home.packages = [ change-wallpaper toggle-caelestia pkgs.jq ];
+  home.packages = [ change-wallpaper pkgs.jq ];
 }

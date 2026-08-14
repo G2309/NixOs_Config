@@ -3,6 +3,7 @@
 {
   imports = [
     ../../modules/nixos
+    ./packages.nix
   ];
 
   nix = {
@@ -94,23 +95,6 @@
     wlr.enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
-
-  environment.systemPackages = with pkgs; [
-    git
-    wget
-    curl
-    unzip
-    ripgrep
-    fd
-    tree
-    wl-clipboard
-    grim
-    slurp
-    polkit_gnome
-    bat
-    app2unit
-    fish
-  ];
 
   fonts = {
     enableDefaultPackages = true;

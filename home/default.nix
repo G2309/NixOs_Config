@@ -22,23 +22,6 @@
     hyprland.enable= false;
   };
 
-  home.packages = with pkgs; [
-    firefox
-    mpv
-    imv
-    fastfetch
-    btop
-    hyprpaper
-    swaylock-effects
-    ranger
-    vesktop
-    inputs.anicli-es.packages.x86_64-linux.default
-    networkmanagerapplet
-    quickshell
-    lsof
-    pavucontrol
-  ];
-
   xdg = {
     enable = true;
     userDirs = {

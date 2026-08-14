@@ -3,7 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    # GPU 
+    ./packages.nix
+    # GPU
     ../../modules/nixos/nvidia.nix
     # ../../modules/nixos/radeon.nix
     ../../modules/nixos/gaming.nix
@@ -36,16 +37,6 @@
     builtins.elem (pkgs.lib.getName pkg) [ "claude" ];
 
   #===
-
-  environment.systemPackages = with pkgs; [
-    # cudatoolkit
-    # nvtopPackages.nvidia
-    mangohud
-    azahar
-    lact
-    inputs.claude-code.packages.x86_64-linux.default
-    inputs.opencode.packages.x86_64-linux.default
-  ];
 
   # =========================================================================
   # === Bloque AMD (RX 9070 XT ) ===============

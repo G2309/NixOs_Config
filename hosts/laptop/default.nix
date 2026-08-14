@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./packages.nix
     ../../modules/nixos/nvidia.nix
   ];
 
@@ -18,8 +19,6 @@
     };
     thermald.enable = true;
   };
-
-  programs.light.enable = true;
 
   hardware.graphics.extraPackages = with pkgs; [
     intel-media-driver
@@ -56,9 +55,4 @@
       scrollMethod = "twofinger";
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    acpi
-    brightnessctl
-  ];
 }
