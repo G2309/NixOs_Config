@@ -30,7 +30,16 @@ let
     hyprctl hyprpaper unload unused
   '';
 
+  toggle-quickshell = pkgs.writeShellScriptBin "toggle-quickshell" ''
+    if ${pkgs.procps}/bin/pgrep -x quickshell > /dev/null; then
+      ${pkgs.procps}/bin/pkill -x quickshell
+    else
+      ${pkgs.quickshell}/bin/quickshell &
+      disown
+    fi
+  '';
+
 in
 {
-  home.packages = [ change-wallpaper pkgs.jq ];
+  home.packages = [ change-wallpaper toggle-quickshell pkgs.jq ];
 }

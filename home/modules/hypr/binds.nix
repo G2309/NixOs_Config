@@ -32,6 +32,7 @@
       ", XF86MonBrightnessDown, exec, brightnessctl set 5%-"
 
       "$mainMod, LEFT, exec, change-wallpaper"
+      "$mainMod, TAB, exec, toggle-quickshell"
 
       "$mainMod, V, togglefloating,"
       "$mainMod, B, pseudo,"

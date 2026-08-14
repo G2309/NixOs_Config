@@ -1,1 +1,9 @@
 singleton Theme 1.0 Theme.qml
+Bar 1.0 Bar.qml
+Battery 1.0 Battery.qml
+ClockWidget 1.0 ClockWidget.qml
+NetworkIndicator 1.0 NetworkIndicator.qml
+Tray 1.0 Tray.qml
+Volume 1.0 Volume.qml
+WindowTitle 1.0 WindowTitle.qml
+Workspaces 1.0 Workspaces.qml
