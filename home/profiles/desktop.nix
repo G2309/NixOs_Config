@@ -11,6 +11,7 @@
     ../modules/spotify
     ../modules/neovim
     ../modules/sunshine
+    ../modules/dunst
     ../modules/gdrive
     ../modules/quickshell
   ];

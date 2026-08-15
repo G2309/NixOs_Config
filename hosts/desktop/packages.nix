@@ -16,5 +16,6 @@
     qemu_kvm
     python3
     keet
+    qbittorrent
   ];
 }
