@@ -17,5 +17,7 @@
     python3
     keet
     qbittorrent
+    nodejs_22
+    uv
   ];
 }
