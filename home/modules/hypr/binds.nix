@@ -19,8 +19,8 @@
       "$mainMod SHIFT, E, exit,"
       "$mainMod SHIFT, W, exec, wlogout"
 
-      "$mainMod SHIFT, P, exec, grim"
-      "$mainMod, P, exec, grim -g \"$(slurp)\" - | wl-copy"
+      "$mainMod SHIFT, P, exec, screenshot-full"
+      "$mainMod, P, exec, screenshot-area"
 
       "$mainMod, UP, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
       "$mainMod, DOWN, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"

@@ -35,5 +35,6 @@
     quickshell
     lsof
     pavucontrol
+    wlogout
   ];
 }

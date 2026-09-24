@@ -1,11 +1,10 @@
-import Quickshell.Hyprland
+import Quickshell.Wayland
 import QtQuick
-import QtQuick.Layouts
 
 Text {
     elide: Text.ElideRight
     color: Theme.subtext0
     font.pixelSize: 13
     font.family: Theme.fontFamily
-    text: Hyprland.activeToplevel ? Hyprland.activeToplevel.title : ""
+    text: ToplevelManager.activeToplevel ? ToplevelManager.activeToplevel.title : ""
 }
