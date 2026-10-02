@@ -28,6 +28,11 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  catppuccin = {
+    enable = false;
+    autoEnable = false;
+  };
+
   # Graficos genericos
   hardware = {
     enableRedistributableFirmware = true;

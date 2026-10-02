@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  programs.neovim.extraLuaConfig = ''
+  programs.neovim.initLua = ''
     -- Options
     vim.g.mapleader = ","
     vim.g.maplocalleader = ","

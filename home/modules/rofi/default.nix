@@ -4,11 +4,11 @@
   programs.rofi = {
     enable = true;
     package = pkgs.rofi;
-    font = "FiraCode Nerd Font 14";
     
     plugins = [ pkgs.rofi-calc ];
 
-    extraConfig = {
+    settings = {
+      font = "FiraCode Nerd Font 14";
       modi = "drun,run,calc,filebrowser";
       show-icons = true;
       icon-theme = "Papirus-Dark";
