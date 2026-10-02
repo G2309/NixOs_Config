@@ -15,6 +15,8 @@
     ../../modules/nixos/openrgb.nix
     ../../modules/nixos/docker.nix
     ../../modules/nixos/realtek.nix
+    ../../modules/nixos/ddc.nix
+    ../../modules/nixos/kdeconnect.nix
   ];
 
   # =========================================================================

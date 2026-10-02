@@ -18,6 +18,8 @@ in
     ../modules/dunst
     ../modules/gdrive
     ../modules/quickshell
+    ../modules/monitor
+    ../modules/kdeconnect
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [

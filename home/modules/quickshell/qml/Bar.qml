@@ -71,7 +71,9 @@ PanelWindow {
 
         Tray {}
         Volume {}
+        Brightness {}
         NetworkIndicator {}
         Battery {}
+        MonitorProfiles {}
     }
 }

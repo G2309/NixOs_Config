@@ -1,4 +1,5 @@
 singleton Theme 1.0 Theme.qml
+singleton Monitor 1.0 Monitor.qml
 Bar 1.0 Bar.qml
 Battery 1.0 Battery.qml
 ClockWidget 1.0 ClockWidget.qml
@@ -9,3 +10,7 @@ WindowTitle 1.0 WindowTitle.qml
 Workspaces 1.0 Workspaces.qml
 WorkspacesHyprland 1.0 WorkspacesHyprland.qml
 WorkspacesSway 1.0 WorkspacesSway.qml
+BarSlider 1.0 BarSlider.qml
+Brightness 1.0 Brightness.qml
+MonitorProfiles 1.0 MonitorProfiles.qml
+MonitorSetting 1.0 MonitorSetting.qml
