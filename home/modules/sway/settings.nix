@@ -14,6 +14,7 @@ in
     modifier = "Mod4";
     terminal = "kitty";
     menu = "rofi -show drun";
+    defaultWorkspace = "workspace number 1";
 
     left = "h";
     down = "j";
