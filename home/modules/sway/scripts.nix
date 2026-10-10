@@ -3,6 +3,10 @@ let
   jq = "${pkgs.jq}/bin/jq";
   notify = "${pkgs.libnotify}/bin/notify-send";
 
+  vrrOutputs = lib.attrNames (
+    lib.filterAttrs (_: o: (o.adaptive_sync or "off") == "on") config.wayland.windowManager.sway.config.output
+  );
+
   refresh-rate = pkgs.writeShellScriptBin "refresh-rate" ''
     set -u
 
@@ -20,6 +24,7 @@ let
     MODE_FILE="$STATE_DIR/refresh-rate.mode"
     GAMING_FILE="$STATE_DIR/refresh-rate.gaming"
     LOW_HZ="''${REFRESH_LOW_HZ:-60}"
+    VRR_OUTPUTS=${lib.escapeShellArg (lib.concatStringsSep " " vrrOutputs)}
 
     plan() {
       swaymsg -r -t get_outputs | ${jq} -r --arg want "$1" --argjson lowhz "$LOW_HZ" '
@@ -36,14 +41,34 @@ let
               | ([ $m[] | select(.refresh >= ($t - 500)) ]) as $ge
               | if ($ge | length) > 0 then ($ge | min_by(.refresh)) else ($m | max_by(.refresh)) end)
            end) as $sel
-        | "\($o.name)\t\($sel.width)x\($sel.height)@\($sel.refresh / 1000)Hz\t\($cur.refresh)\t\($sel.refresh)"
+        | "\($o.name)\t\($sel.width)x\($sel.height)@\($sel.refresh / 1000)Hz\t\($cur.refresh)\t\($sel.refresh)\t\($o.adaptive_sync_status // "disabled")"
       '
     }
 
+    vrr_capable() {
+      local v
+      for v in $VRR_OUTPUTS; do
+        if [ "$v" = "$1" ]; then
+          return 0
+        fi
+      done
+      return 1
+    }
+
     apply() {
-      plan "$1" | while IFS=$'\t' read -r name mode cur sel; do
+      local want_vrr=off
+      if [ "$1" = high ]; then
+        want_vrr=on
+      fi
+      plan "$1" | while IFS=$'\t' read -r name mode cur sel vrr; do
+        if vrr_capable "$name" && [ "$want_vrr" = off ] && [ "$vrr" = enabled ]; then
+          swaymsg -q output "$name" adaptive_sync off || true
+        fi
         if [ "$cur" != "$sel" ]; then
           swaymsg -q output "$name" mode "$mode" || true
+        fi
+        if vrr_capable "$name" && [ "$want_vrr" = on ] && [ "$vrr" != enabled ]; then
+          swaymsg -q output "$name" adaptive_sync on || true
         fi
       done
     }
