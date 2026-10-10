@@ -27,20 +27,67 @@ let
     };
   };
 
+  presetCodes = {
+    "5000K" = "04";
+    "6500K" = "05";
+    "7500K" = "06";
+    "9300K" = "08";
+    user = "0b";
+  };
+
+  gammaCodes = {
+    "1.8" = "50";
+    "2.0" = "64";
+    "2.2" = "78";
+    "2.4" = "8c";
+    "2.6" = "a0";
+    "2.8" = "b4";
+  };
+
   profiles = {
     day = {
       brightness = 70;
       contrast = 75;
       sharpness = 50;
-      colorPreset = "";
+      colorPreset = "6500K";
+      gamma = "2.2";
     };
     night = {
       brightness = 25;
       contrast = 70;
       sharpness = 50;
-      colorPreset = "";
+      colorPreset = "user";
+      gamma = "2.4";
+      gains = {
+        red = 100;
+        green = 95;
+        blue = 86;
+      };
     };
   };
+
+  profileValues = lib.mapAttrs (_: p: {
+    inherit (p) brightness contrast sharpness;
+    colorPreset = presetCodes.${p.colorPreset} or "";
+    gamma = gammaCodes.${p.gamma} or "";
+    gainRed = toString (p.gains.red or "");
+    gainGreen = toString (p.gains.green or "");
+    gainBlue = toString (p.gains.blue or "");
+  }) profiles;
+
+  invalidColor = lib.concatLists (
+    lib.mapAttrsToList (
+      pname: p:
+      lib.optional (!(presetCodes ? ${p.colorPreset})) "${pname}.colorPreset = ${p.colorPreset} (permitido: ${lib.concatStringsSep ", " (lib.attrNames presetCodes)})"
+      ++ lib.optional (!(gammaCodes ? ${p.gamma})) "${pname}.gamma = ${p.gamma} (permitido: ${lib.concatStringsSep ", " (lib.attrNames gammaCodes)})"
+      ++ lib.optional (p ? gains && p.colorPreset != "user") "${pname}.gains solo aplica con colorPreset = \"user\""
+      ++ lib.concatLists (
+        lib.mapAttrsToList (
+          c: v: lib.optional (v < 60 || v > 100) "${pname}.gains.${c} = ${toString v} (permitido: 60-100)"
+        ) (p.gains or { })
+      )
+    ) profiles
+  );
 
   caseLines =
     attrs:
@@ -90,7 +137,7 @@ let
 
       profile_get() {
         case "$1:$2" in
-      ${caseLines profiles}    *) echo "" ;;
+      ${caseLines profileValues}    *) echo "" ;;
         esac
       }
 
@@ -107,8 +154,8 @@ in
 {
   assertions = [
     {
-      assertion = invalidSettings == [ ];
-      message = "monitor: valores fuera de lo que admite el monitor:\n  " + lib.concatStringsSep "\n  " invalidSettings;
+      assertion = invalidSettings ++ invalidColor == [ ];
+      message = "monitor: valores fuera de lo que admite el monitor:\n  " + lib.concatStringsSep "\n  " (invalidSettings ++ invalidColor);
     }
   ];
 

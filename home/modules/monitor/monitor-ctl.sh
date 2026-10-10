@@ -181,21 +181,49 @@ caps_vcp() {
   }' "$CAPS_FILE"
 }
 
-preset_supported() {
-  local want
-  want=$(printf '%02X' "$((16#$1))")
-  caps_vcp | awk -v w="$want" '{
+cap_has_value() {
+  local code want
+  code=$(printf '%02X' "$((16#$1))")
+  want=$(printf '%02X' "$((16#$2))")
+  caps_vcp | awk -v c="$code" -v w="$want" '{
     for (i = 1; i <= NF; i++)
-      if ($i == "14" && $(i + 1) == "(")
+      if ($i == c && $(i + 1) == "(")
         for (j = i + 2; j <= NF && $j != ")"; j++)
           if ($j == w) f = 1
   } END { exit !f }'
 }
 
+read_current() {
+  ddc getvcp "$1" --brief 2>/dev/null | awk '{
+    if ($3 == "C") { print $4; exit }
+    v = $NF; sub(/^x/, "", v); print strtonum("0x" v); exit
+  }' || true
+}
+
+set_code() {
+  local code=$1 value=$2 cur
+  cur=$(read_current "$code")
+  if [ "$cur" = "$value" ]; then
+    return 0
+  fi
+  if ! ddc_write "$code" "$value"; then
+    echo "monitor-ctl: el monitor rechazo VCP $code=$value" >&2
+    return 1
+  fi
+}
+
+set_gain() {
+  local code=$1 pct=$2 max
+  if [ "$pct" -lt 60 ]; then pct=60; fi
+  if [ "$pct" -gt 100 ]; then pct=100; fi
+  max=$(max_of "$code") || return 1
+  set_code "$code" "$(( pct * max / 100 ))"
+}
+
 ddc_write() {
   local code=$1 raw=$2
   case "$code" in
-    10|12|87|14) ;;
+    10|12|87|14|72|16|18|1A) ;;
     *)
       echo "monitor-ctl: escritura bloqueada al codigo VCP $code" >&2
       return 1
@@ -265,11 +293,24 @@ set_feature() {
 }
 
 apply_profile() {
-  local p=$1 preset
+  local p=$1 preset gamma gain entry
   preset=$(profile_get "$p" colorPreset)
-  if [ -n "$preset" ] && preset_supported "$preset"; then
-    ddc_write 14 "$((16#$preset))" || true
-    sleep 0.3
+  if [ -n "$preset" ] && cap_has_value 14 "$preset"; then
+    if set_code 14 "$((16#$preset))"; then
+      sleep 0.5
+    fi
+  fi
+  if [ "$preset" = 0b ]; then
+    for entry in 16:gainRed 18:gainGreen 1A:gainBlue; do
+      gain=$(profile_get "$p" "${entry#*:}")
+      if [ -n "$gain" ]; then
+        set_gain "${entry%%:*}" "$gain" || true
+      fi
+    done
+  fi
+  gamma=$(profile_get "$p" gamma)
+  if [ -n "$gamma" ] && cap_has_value 72 "$gamma"; then
+    set_code 72 "$((16#$gamma))" || true
   fi
   set_feature brightness "$(profile_get "$p" brightness)" || return 1
   set_feature contrast "$(profile_get "$p" contrast)" || true

@@ -17,6 +17,7 @@
     ../../modules/nixos/realtek.nix
     ../../modules/nixos/ddc.nix
     ../../modules/nixos/kdeconnect.nix
+    ../../modules/nixos/lact.nix
   ];
 
   # =========================================================================
@@ -57,7 +58,6 @@
   };
   
   services.blueman.enable = true;
-  services.lact.enable = true;
 
   services.lsfg-vk = {
     enable = true;
