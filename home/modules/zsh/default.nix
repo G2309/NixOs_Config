@@ -32,7 +32,9 @@
       bindkey '^[[B' history-search-forward
     '';
   };
-  
+
+  home.sessionPath = [ "$HOME/.local/bin" ];
+
   home.packages = with pkgs; [
     eza
     bat
