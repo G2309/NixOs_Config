@@ -18,6 +18,7 @@
     ../../modules/nixos/ddc.nix
     ../../modules/nixos/kdeconnect.nix
     ../../modules/nixos/lact.nix
+    ../../modules/nixos/ollama.nix
   ];
 
   # =========================================================================

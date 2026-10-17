@@ -6,7 +6,8 @@
     mangohud
     azahar
     inputs.claude-code.packages.x86_64-linux.default
-    inputs.opencode.packages.x86_64-linux.default
+    opencode
+    railway
   ];
 
   # Paquetes de home-manager especificos de desktop.
