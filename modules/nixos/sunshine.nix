@@ -1,12 +1,18 @@
 { ... }:
 
 {
-  networking.firewall.allowedTCPPortRanges = [ 
-    { from = 47984; to = 48010; }
+  networking.firewall.allowedTCPPorts = [
+    47984
+    47989
+    48010
   ];
-  
-  networking.firewall.allowedUDPPortRanges = [ 
-    { from = 47998; to = 48010; }
+
+  networking.firewall.allowedUDPPorts = [
+    47998
+    47999
+    48000
+    48002
+    48010
   ];
 
   boot.kernelModules = [ "uinput" ];
