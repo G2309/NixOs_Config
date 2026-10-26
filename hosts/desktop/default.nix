@@ -74,6 +74,17 @@
   
   services.blueman.enable = true;
 
+  systemd.services.display-manager.preStart = ''
+    for _ in $(seq 1 15); do
+      for d in /sys/class/drm/card*/device/driver; do
+        if readlink "$d" | grep -q nvidia; then
+          exit 0
+        fi
+      done
+      sleep 1
+    done
+  '';
+
   services.lsfg-vk = {
     enable = true;
     ui.enable = true;

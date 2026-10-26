@@ -6,12 +6,15 @@
 
   config = {
     # LLM local como respaldo para OpenCode (RTX 3080, 10 GB VRAM).
-    # Un modelo de ~8B en Q4 (~5 GB) + 16k de contexto cabe sin saturar la GPU.
     services.ollama = {
       enable = true;
       package = pkgs.ollama-cuda;
       host = "127.0.0.1";
-      loadModels = [ "qwen3:8b" ];
+      loadModels = [
+        "gemma4:12b"
+        "qwen3.5:9b"
+      ];
+      syncModels = true;
       environmentVariables = {
         # OpenCode manda un system prompt grande; el default de Ollama se queda corto.
         OLLAMA_CONTEXT_LENGTH = "16384";
