@@ -76,6 +76,7 @@ in
       "${mod}+t" = "scratchpad show";
       "${mod}+Shift+t" = "move scratchpad";
 
+      "${mod}+Ctrl+m" = "exec mirror-screen";
       "${mod}+Shift+r" = "exec refresh-rate toggle";
       "${mod}+Ctrl+r" = "reload";
     }

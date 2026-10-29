@@ -7,6 +7,7 @@
     ./rules.nix
     ./autostart.nix
     ./scripts.nix
+    ./mirror.nix
   ];
 
   wayland.windowManager.sway = {
