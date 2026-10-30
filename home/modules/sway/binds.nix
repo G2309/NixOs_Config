@@ -51,6 +51,7 @@ in
       "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
 
       "${mod}+Left" = "exec change-wallpaper";
+      "${mod}+g" = "exec change-wallpaper";
       "${mod}+Tab" = "exec toggle-quickshell";
 
       "${mod}+v" = "floating toggle";
@@ -83,4 +84,9 @@ in
     // focusWorkspace
     // moveToWorkspace
   );
+
+  wayland.windowManager.sway.config.keycodebindings = {
+    "${mod}+20" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+    "${mod}+21" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+  };
 }

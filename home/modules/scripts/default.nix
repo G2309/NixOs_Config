@@ -39,9 +39,63 @@ let
       hyprctl hyprpaper unload unused
     elif [ -n "''${SWAYSOCK:-}" ]; then
       swaymsg output '*' bg "$NEXT_WP" fill
+      ${wallpaper-theme}/bin/wallpaper-theme "$NEXT_WP" || true
     else
       echo "change-wallpaper: no se detecto ni Hyprland ni Sway" >&2
       exit 1
+    fi
+  '';
+
+  wallpaper-theme = pkgs.writeShellScriptBin "wallpaper-theme" ''
+    set -u
+
+    IMG="''${1:-}"
+    if [ ! -f "$IMG" ]; then
+      echo "uso: wallpaper-theme <imagen>" >&2
+      exit 1
+    fi
+
+    DIR="''${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper-theme"
+    mkdir -p "$DIR"
+
+    if ! RAW=$(${pkgs.matugen}/bin/matugen image "$IMG" --mode dark --prefer saturation --dry-run --json hex 2>/dev/null); then
+      echo "wallpaper-theme: matugen no pudo procesar $IMG" >&2
+      exit 1
+    fi
+
+    THEME=$(printf '%s' "$RAW" | ${pkgs.jq}/bin/jq --arg img "$IMG" '.colors | with_entries(.value = .value.dark.color) | {
+      mauve: .primary,
+      lavender: .secondary,
+      onAccent: .on_primary,
+      crust: .surface_container_lowest,
+      mantle: .surface_container_low,
+      base: .surface,
+      surface0: .surface_container,
+      surface1: .surface_container_high,
+      surface2: .surface_container_highest,
+      overlay0: .outline,
+      overlay1: .outline,
+      overlay2: .on_surface_variant,
+      text: .on_surface,
+      subtext0: .on_surface_variant,
+      subtext1: .on_surface_variant,
+      red: .error,
+      wallpaper: $img
+    }')
+
+    printf '%s\n' "$THEME" > "$DIR/colors.json"
+
+    if [ -n "''${SWAYSOCK:-}" ]; then
+      col() { printf '%s' "$THEME" | ${pkgs.jq}/bin/jq -r ".$1"; }
+      A=$(col mauve); ONA=$(col onAccent); L=$(col lavender)
+      S0=$(col surface0); CR=$(col crust); B=$(col base)
+      T=$(col text); ST=$(col subtext0); R=$(col red)
+      swaymsg -q "client.focused $A $A $ONA $L $A"
+      swaymsg -q "client.focused_inactive $S0 $S0 $T $S0 $S0"
+      swaymsg -q "client.unfocused $CR $CR $ST $CR $CR"
+      swaymsg -q "client.urgent $R $R $CR $R $R"
+      swaymsg -q "client.placeholder $CR $CR $T $CR $CR"
+      swaymsg -q "client.background $B"
     fi
   '';
 
@@ -73,6 +127,7 @@ in
 {
   home.packages = [
     change-wallpaper
+    wallpaper-theme
     toggle-quickshell
     screenshot-full
     screenshot-area
