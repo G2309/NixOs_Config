@@ -6,7 +6,7 @@ let
 
   schedule = {
     day = "06:00";
-    night = "18:00";
+    night = "21:00";
   };
 
   limits = {
