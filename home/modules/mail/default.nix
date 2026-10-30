@@ -94,6 +94,7 @@ in
 
   programs.neomutt = {
     enable = true;
+    package = pkgs.neomutt.override { withNotmuch = false; };
     vimKeys = true;
     sidebar.enable = true;
     sort = "reverse-date";
