@@ -25,7 +25,7 @@ let
   secretLookup = a: "${pkgs.libsecret}/bin/secret-tool lookup service mail account ${a.address}";
 
   digestConfig = builtins.toJSON {
-    model = "gemma3:4b";
+    model = "qwen3.5:4b";
     ollama = "http://127.0.0.1:11434";
     accounts = map (a: { inherit (a) name address host port auth; }) accounts;
   };

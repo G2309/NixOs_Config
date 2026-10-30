@@ -132,6 +132,7 @@ def classify(mails):
             "messages": [{"role": "user", "content": PROMPT + listing}],
             "format": SCHEMA,
             "stream": False,
+            "think": False,
             "keep_alive": "30s",
             "options": {"temperature": 0, "num_ctx": 8192},
         }).encode()
