@@ -9,5 +9,6 @@
     ./ui.nix
     ./misc.nix
     ./jupyter.nix
+    ./ai.nix
   ];
 }
