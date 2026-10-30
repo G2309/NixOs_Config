@@ -47,6 +47,10 @@
 
           vim.g.ia_autocompletado = true
 
+          _G.estado_ia = function()
+            return vim.g.ia_autocompletado and "IA: on" or "IA: off"
+          end
+
           local function aplicar(buf)
             if vim.bo[buf].buftype == "" then
               vim.b[buf].minuet_virtual_text_auto_trigger = vim.g.ia_autocompletado
@@ -75,9 +79,20 @@
               })
             end
             vim.notify("Autocompletado IA: " .. (vim.g.ia_autocompletado and "encendido" or "apagado"))
+            pcall(function()
+              require("lualine").refresh()
+            end)
           end
 
           vim.keymap.set("n", "<leader>ai", alternar, { desc = "Encender/apagar autocompletado IA" })
+          vim.keymap.set({ "n", "i" }, "<A-i>", alternar, { desc = "Encender/apagar autocompletado IA" })
+
+          pcall(function()
+            require("which-key").add({
+              { "<leader>a", group = "IA" },
+              { "<leader>ai", desc = "Encender/apagar autocompletado" },
+            })
+          end)
           vim.api.nvim_create_user_command("IA", alternar, {})
         '';
       }

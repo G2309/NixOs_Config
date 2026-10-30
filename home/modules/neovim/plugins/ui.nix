@@ -42,7 +42,16 @@
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff", "diagnostics" },
             lualine_c = { { "filename", path = 1 } },
-            lualine_x = { "encoding", "fileformat", "filetype" },
+            lualine_x = {
+              {
+                function()
+                  return _G.estado_ia and _G.estado_ia() or ""
+                end,
+              },
+              "encoding",
+              "fileformat",
+              "filetype",
+            },
             lualine_y = { "progress" },
             lualine_z = { "location" },
           },
