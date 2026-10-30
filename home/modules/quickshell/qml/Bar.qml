@@ -72,7 +72,17 @@ PanelWindow {
         Tray {}
         Volume {}
         Brightness {}
-        NetworkIndicator {}
+        Column {
+            spacing: 1
+
+            NetworkIndicator {
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            MailDigest {
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+        }
         Battery {}
         MonitorProfiles {}
     }

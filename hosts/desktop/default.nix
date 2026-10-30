@@ -19,6 +19,7 @@
     ../../modules/nixos/kdeconnect.nix
     ../../modules/nixos/lact.nix
     ../../modules/nixos/ollama.nix
+    ../../modules/nixos/keyring.nix
   ];
 
   # =========================================================================

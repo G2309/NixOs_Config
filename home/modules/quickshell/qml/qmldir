@@ -14,3 +14,4 @@ BarSlider 1.0 BarSlider.qml
 Brightness 1.0 Brightness.qml
 MonitorProfiles 1.0 MonitorProfiles.qml
 MonitorSetting 1.0 MonitorSetting.qml
+MailDigest 1.0 MailDigest.qml

@@ -9,7 +9,7 @@
       enable = true;
       package = pkgs.ollama-cuda;
       host = "127.0.0.1";
-      loadModels = [ "qwen2.5-coder:3b-base" ];
+      loadModels = [ "qwen2.5-coder:3b-base" "gemma3:4b" ];
       syncModels = true;
       environmentVariables = {
         OLLAMA_CONTEXT_LENGTH = "4096";

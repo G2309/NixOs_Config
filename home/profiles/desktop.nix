@@ -20,6 +20,7 @@ in
     ../modules/quickshell
     ../modules/monitor
     ../modules/kdeconnect
+    ../modules/mail
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
