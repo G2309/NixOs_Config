@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  services.displayManager.defaultSession = "sway";
+
   programs.sway = {
     enable = true;
     xwayland.enable = true;

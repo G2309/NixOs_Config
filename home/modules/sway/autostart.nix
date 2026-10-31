@@ -2,6 +2,7 @@
 
 {
   wayland.windowManager.sway.config.startup = [
+    { command = "${pkgs.gnome-keyring}/bin/gnome-keyring-daemon --start --components=secrets"; }
     { command = "change-wallpaper --restore"; always = true; }
     { command = "${pkgs.autotiling}/bin/autotiling"; }
     { command = "quickshell"; }
