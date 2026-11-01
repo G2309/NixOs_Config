@@ -20,6 +20,22 @@ let
   model = hf "LFM3-Omni-2B-Q8_0.gguf" "sha256-WRGPZh6qy5PSBHI9djVbUzR/CUC1CMEUEvYpD9SRWNQ=";
   mmproj = hf "mmproj-LFM3-Omni-2B-Q8_0.gguf" "sha256-iiX50ZMSREKd5AT8ys+3+5M5cKNqpWiNL1Bp8pxrJ7E=";
 
+  llama-run = pkgs.writeShellScript "llama-run" ''
+    set -u
+    LOG="''${XDG_RUNTIME_DIR:-/tmp}/llama-run.log"
+    if "$@" -ngl 99 2>"$LOG"; then
+      exit 0
+    fi
+    for m in $(${pkgs.curl}/bin/curl -s --max-time 5 http://127.0.0.1:11434/api/ps | ${pkgs.jq}/bin/jq -r '.models[]?.name'); do
+      ${pkgs.jq}/bin/jq -n --arg m "$m" '{model: $m, keep_alive: 0}' \
+        | ${pkgs.curl}/bin/curl -s --max-time 10 http://127.0.0.1:11434/api/generate -d @- >/dev/null
+    done
+    if "$@" -ngl 99 2>>"$LOG"; then
+      exit 0
+    fi
+    exec "$@" -ngl 0 --no-mmproj-offload 2>>"$LOG"
+  '';
+
   decir = pkgs.writeShellScriptBin "decir" ''
     set -u
     if [ "$#" -gt 0 ]; then
@@ -36,8 +52,8 @@ let
     ${pkgs.util-linux}/bin/flock 9
     OUT=$(${pkgs.coreutils}/bin/mktemp -p "$RUN" decir.XXXXXX.wav)
     trap '${pkgs.coreutils}/bin/rm -f "$OUT"' EXIT
-    if ! ${llamaCpp}/bin/llama-tts -m ${model} -mm ${mmproj} -ngl 99 \
-      --tts-lang es --tts-voice female -p "$TEXT" -o "$OUT" >/dev/null 2>&1; then
+    if ! ${llama-run} ${llamaCpp}/bin/llama-tts -m ${model} -mm ${mmproj} \
+      --tts-lang es --tts-voice female -p "$TEXT" -o "$OUT" >/dev/null; then
       ${pkgs.libnotify}/bin/notify-send -a Voz "Voz" "No se pudo generar el audio" || true
       exit 1
     fi
@@ -77,8 +93,8 @@ let
           exit 0
         fi
         say "Voz" "Entendiendo…"
-        TEXT=$(${llamaCpp}/bin/llama-mtmd-cli -m ${model} --mmproj ${mmproj} -ngl 99 \
-          --audio "$WAV" -sys "Perform ASR in Spanish." -p "<__media__>" --temp 0 2>/dev/null \
+        TEXT=$(${llama-run} ${llamaCpp}/bin/llama-mtmd-cli -m ${model} --mmproj ${mmproj} \
+          --audio "$WAV" -sys "Perform ASR in Spanish." -p "<__media__>" --temp 0 \
           | tr '\n' ' ' | sed -e 's/<think>.*<\/think>//' -e 's/^ *//' -e 's/ *$//')
         if [ -z "$TEXT" ]; then
           say "Voz" "No te entendi"
