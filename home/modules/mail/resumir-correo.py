@@ -3,6 +3,7 @@ import html
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.request
 from email import policy
@@ -33,6 +34,7 @@ def extract(msg):
 
 
 def main():
+    voz = "--voz" in sys.argv[1:]
     msg = email.message_from_bytes(sys.stdin.buffer.read(), policy=policy.default)
     body = extract(msg)
     if not body:
@@ -52,16 +54,23 @@ def main():
         headers={"Content-Type": "application/json"},
     )
     print("Resumen (%s)\n" % os.environ["OLLAMA_MODEL"])
+    summary = []
     try:
         with urllib.request.urlopen(req, timeout=300) as r:
             for line in r:
                 chunk = json.loads(line)
-                sys.stdout.write(chunk.get("message", {}).get("content", ""))
+                piece = chunk.get("message", {}).get("content", "")
+                summary.append(piece)
+                sys.stdout.write(piece)
                 sys.stdout.flush()
     except Exception as e:
         print("\nError con ollama: %s" % e)
         return 1
     print()
+    if voz:
+        text = re.sub(r"[*_`#]", "", "".join(summary))
+        text = re.sub(r"(?m)^\s*[-•]\s*", "", text).replace("Accion:", "Acción:")
+        subprocess.run(["decir", text])
     return 0
 
 

@@ -6,6 +6,7 @@ import html
 import imaplib
 import json
 import os
+import re
 import subprocess
 import sys
 import urllib.request
@@ -166,7 +167,54 @@ def digest(mails, results):
         if g["cat"] in ("urgente", "importante"):
             label = "%s: %s" % (g["sender"], g["summary"])
         lines.append((g["cat"], "- %d [%s] %s" % (g["count"], g["cat"], label)))
-    return lines
+    return lines, ordered
+
+
+def speech(total, groups):
+    if total == 0:
+        return "No tienes correos nuevos hoy."
+    parts = ["Tienes %d %s hoy." % (total, "correo" if total == 1 else "correos")]
+    for cat in ("urgente", "importante"):
+        for g in [g for g in groups if g["cat"] == cat]:
+            parts.append("%s: %s, %s." % (cat.capitalize(), g["sender"], g["summary"].rstrip(".")))
+    rest = {}
+    for g in groups:
+        if g["cat"] not in ("urgente", "importante"):
+            rest[g["cat"]] = rest.get(g["cat"], 0) + g["count"]
+    if rest:
+        names = {"normal": "normales", "publicidad": "de publicidad", "spam": "de spam"}
+        items = ["%d %s" % (n, names[c]) for c, n in rest.items()]
+        joined = items[0] if len(items) == 1 else ", ".join(items[:-1]) + " y " + items[-1]
+        parts.append("Además, %s." % joined)
+    return " ".join(parts)
+
+
+def answer(mails, question):
+    if mails:
+        listing = "\n".join("- De: %s | Asunto: %s" % (m["from"], m["subject"][:160]) for m in mails)
+    else:
+        listing = "(no hay correos hoy)"
+    prompt = (
+        "Estos son mis correos recibidos hoy:\n%s\n\n"
+        "Pregunta: %s\n\n"
+        "Responde en espanol en maximo 3 frases cortas, sin listas ni markdown, "
+        "pensando que la respuesta se va a leer en voz alta." % (listing, question)
+    )
+    body = json.dumps({
+        "model": CONFIG["model"],
+        "messages": [{"role": "user", "content": prompt}],
+        "stream": False,
+        "think": False,
+        "keep_alive": "30s",
+        "options": {"temperature": 0.2, "num_ctx": 16384},
+    }).encode()
+    req = urllib.request.Request(
+        CONFIG["ollama"] + "/api/chat", data=body,
+        headers={"Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=300) as r:
+        text = json.loads(r.read())["message"]["content"]
+    return re.sub(r"[*_`#]", "", text).strip()
 
 
 def notify(title, body, urgency="normal", replace=None):
@@ -180,6 +228,8 @@ def notify(title, body, urgency="normal", replace=None):
 def main():
     parser = argparse.ArgumentParser(prog="mail-digest")
     parser.add_argument("--stdout", action="store_true")
+    parser.add_argument("--voz", action="store_true")
+    parser.add_argument("--pregunta")
     args = parser.parse_args()
 
     lock = open(os.path.join(os.environ.get("XDG_RUNTIME_DIR", "/tmp"), "mail-digest.lock"), "w")
@@ -197,12 +247,25 @@ def main():
         except Exception as e:
             errors.append("%s: %s" % (account["name"], e))
 
-    lines = []
+    if args.pregunta:
+        try:
+            reply = answer(mails, args.pregunta)
+        except Exception as e:
+            reply = "No pude consultar el modelo: %s" % e
+        if args.stdout:
+            print(reply)
+        else:
+            notify("Correo", html.escape(reply), "normal", nid)
+        if args.voz:
+            subprocess.run(["decir", reply])
+        return 0
+
+    lines, groups = [], []
     if mails:
         try:
             if nid:
                 notify("Correo", "Clasificando %d correos…" % len(mails), "low", nid)
-            lines = digest(mails, classify(mails))
+            lines, groups = digest(mails, classify(mails))
         except Exception as e:
             errors.append("ollama: %s" % e)
             lines = [("normal", "- %d correos sin clasificar" % len(mails))]
@@ -214,6 +277,8 @@ def main():
             print(line)
         for e in errors:
             print("! " + e)
+        if args.voz:
+            subprocess.run(["decir", speech(len(mails), groups)])
         return 0
 
     shown = lines[:MAX_LINES]
@@ -228,6 +293,8 @@ def main():
     body += ["⚠ " + html.escape(e) for e in errors]
     urgent = any(cat == "urgente" for cat, _ in lines)
     notify(title, "\n".join(body), "critical" if urgent else "normal", nid)
+    if args.voz:
+        subprocess.run(["decir", speech(len(mails), groups)])
     return 0
 
 

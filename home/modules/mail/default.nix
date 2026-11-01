@@ -125,6 +125,7 @@ in
     ];
     macros = [
       { map = [ "index" "pager" ]; key = "S"; action = "<pipe-message>resumir-correo<enter>"; }
+      { map = [ "index" "pager" ]; key = "V"; action = "<pipe-message>resumir-correo --voz<enter>"; }
     ];
   };
 }

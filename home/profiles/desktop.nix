@@ -21,6 +21,7 @@ in
     ../modules/monitor
     ../modules/kdeconnect
     ../modules/mail
+    ../modules/voice
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
