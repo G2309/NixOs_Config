@@ -20,6 +20,7 @@
     ../../modules/nixos/lact.nix
     ../../modules/nixos/ollama.nix
     ../../modules/nixos/keyring.nix
+    ../../modules/nixos/android.nix
   ];
 
   # =========================================================================

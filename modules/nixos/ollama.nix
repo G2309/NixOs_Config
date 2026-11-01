@@ -16,6 +16,7 @@
         # Libera la VRAM a los 5 min sin uso (para jugar, etc.).
         OLLAMA_KEEP_ALIVE = "5m";
         OLLAMA_MAX_LOADED_MODELS = "1";
+        OLLAMA_NO_CLOUD = "1";
       };
     };
 

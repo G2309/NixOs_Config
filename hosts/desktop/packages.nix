@@ -19,5 +19,21 @@
     qbittorrent
     nodejs_22
     uv
+    gh
+    ffmpeg
+  ];
+
+  home-manager.users.gustavo.programs.neovim.plugins = [
+    {
+      plugin = pkgs.vimPlugins.flutter-tools-nvim;
+      type = "lua";
+      config = ''
+        require("flutter-tools").setup({
+          lsp = {
+            capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          },
+        })
+      '';
+    }
   ];
 }
