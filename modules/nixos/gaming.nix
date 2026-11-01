@@ -9,6 +9,8 @@ let
       hash = "sha256-qM1TmLba6SS87Ans4XgcA8v9cymGdUdvJvwcBy08Yps=";
     };
 
+    extraPkgs = pkgs: [ pkgs.icu ];
+
     extraInstallCommands =
       let
         contents = pkgs.appimageTools.extract { inherit pname version src; };
