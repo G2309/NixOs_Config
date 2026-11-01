@@ -12,7 +12,7 @@
       loadModels = [ "qwen2.5-coder:3b-base" "qwen3.5:4b" ];
       syncModels = true;
       environmentVariables = {
-        OLLAMA_CONTEXT_LENGTH = "4096";
+        OLLAMA_CONTEXT_LENGTH = "131072";
         # Libera la VRAM a los 5 min sin uso (para jugar, etc.).
         OLLAMA_KEEP_ALIVE = "5m";
         OLLAMA_MAX_LOADED_MODELS = "1";
