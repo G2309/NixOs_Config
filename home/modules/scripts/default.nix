@@ -96,6 +96,34 @@ let
       swaymsg -q "client.urgent $R $R $CR $R $R"
       swaymsg -q "client.placeholder $CR $CR $T $CR $CR"
       swaymsg -q "client.background $B"
+      CURSOR=$(${pkgs.gawk}/bin/gawk -v c="$A" '
+        function hsv(hex, out,   r, g, b, mx, mn, d, h) {
+          r = strtonum("0x" substr(hex, 2, 2)) / 255
+          g = strtonum("0x" substr(hex, 4, 2)) / 255
+          b = strtonum("0x" substr(hex, 6, 2)) / 255
+          mx = r; if (g > mx) mx = g; if (b > mx) mx = b
+          mn = r; if (g < mn) mn = g; if (b < mn) mn = b
+          d = mx - mn; h = 0
+          if (d > 0) {
+            if (mx == r) h = 60 * (((g - b) / d) % 6)
+            else if (mx == g) h = 60 * ((b - r) / d + 2)
+            else h = 60 * ((r - g) / d + 4)
+          }
+          if (h < 0) h += 360
+          out["h"] = h; out["s"] = (mx > 0) ? d / mx : 0; out["v"] = mx
+        }
+        BEGIN {
+          n = split("rosewater:#f4dbd6 flamingo:#f0c6c6 pink:#f5bde6 mauve:#c6a0f6 red:#ed8796 maroon:#ee99a0 peach:#f5a97f yellow:#eed49f green:#a6da95 teal:#8bd5ca sky:#91d7e3 sapphire:#7dc4e4 blue:#8aadf4 lavender:#b7bdf8", list, " ")
+          hsv(c, t); best = "mauve"; bd = 1e9
+          for (i = 1; i <= n; i++) {
+            split(list[i], kv, ":"); hsv(kv[2], a)
+            dh = t["h"] - a["h"]; if (dh < 0) dh = -dh; if (dh > 180) dh = 360 - dh
+            d = (dh / 180) * 3 * t["s"] + (t["s"] - a["s"]) ^ 2 + 0.5 * (t["v"] - a["v"]) ^ 2
+            if (d < bd) { bd = d; best = kv[1] }
+          }
+          print best
+        }')
+      swaymsg -q "seat * xcursor_theme catppuccin-macchiato-$CURSOR-cursors 18" || true
     fi
   '';
 
@@ -125,7 +153,10 @@ let
   '';
 in
 {
-  home.packages = [
+  home.packages = map (c: pkgs.catppuccin-cursors.${"macchiato" + c}) [
+    "Rosewater" "Flamingo" "Pink" "Mauve" "Red" "Maroon" "Peach"
+    "Yellow" "Green" "Teal" "Sky" "Sapphire" "Blue" "Lavender"
+  ] ++ [
     change-wallpaper
     wallpaper-theme
     toggle-quickshell

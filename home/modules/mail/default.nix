@@ -40,6 +40,16 @@ let
     exec ${digestPy} "$@"
   '';
 
+  resumirPy = pkgs.writers.writePython3 "resumir-correo.py" {
+    flakeIgnore = [ "E501" ];
+  } (builtins.readFile ./resumir-correo.py);
+
+  resumir-correo = pkgs.writeShellScriptBin "resumir-correo" ''
+    export OLLAMA_URL=http://127.0.0.1:11434
+    export OLLAMA_MODEL=qwen3.5:4b
+    exec ${resumirPy} "$@"
+  '';
+
   mail-password = pkgs.writeShellScriptBin "mail-password" ''
     set -eu
     ADDR="''${1:-}"
@@ -53,6 +63,7 @@ in
 {
   home.packages = [
     mail-digest
+    resumir-correo
     mail-password
     pkgs.libsecret
   ];
@@ -104,6 +115,16 @@ in
       mail_check = "120";
       header_cache = "${config.xdg.cacheHome}/neomutt/headers";
       message_cachedir = "${config.xdg.cacheHome}/neomutt/bodies";
+      wait_key = "yes";
     };
+    binds = [
+      { map = [ "index" "pager" ]; key = "\\Cp"; action = "sidebar-prev"; }
+      { map = [ "index" "pager" ]; key = "\\Cn"; action = "sidebar-next"; }
+      { map = [ "index" "pager" ]; key = "\\Co"; action = "sidebar-open"; }
+      { map = [ "index" "pager" ]; key = "B"; action = "sidebar-toggle-visible"; }
+    ];
+    macros = [
+      { map = [ "index" "pager" ]; key = "S"; action = "<pipe-message>resumir-correo<enter>"; }
+    ];
   };
 }
