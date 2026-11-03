@@ -9,6 +9,7 @@
       enable = true;
       device = "nodev";
       efiSupport = true;
+      configurationLimit = 15;
       useOSProber = true;
       gfxmodeEfi = "auto";
       gfxpayloadEfi = "keep";

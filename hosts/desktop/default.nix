@@ -21,6 +21,7 @@
     ../../modules/nixos/ollama.nix
     ../../modules/nixos/keyring.nix
     ../../modules/nixos/android.nix
+    ../../modules/nixos/security.nix
   ];
 
   # =========================================================================
