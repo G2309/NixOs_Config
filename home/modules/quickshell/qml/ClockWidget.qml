@@ -8,9 +8,10 @@ Item {
     id: clockRoot
 
     property bool pinned: false
+    property bool hoverOpen: false
     property int viewMonth: clock.date.getMonth()
     property int viewYear: clock.date.getFullYear()
-    property string selected: ""
+    property string selected: iso(clock.date.getFullYear(), clock.date.getMonth(), clock.date.getDate())
     property var events: ({})
 
     implicitWidth: label.implicitWidth
@@ -21,6 +22,7 @@ Item {
     }
 
     function shiftMonth(delta) {
+        pinned = true;
         const d = new Date(viewYear, viewMonth + delta, 1);
         viewMonth = d.getMonth();
         viewYear = d.getFullYear();
@@ -74,12 +76,28 @@ Item {
 
     HoverHandler {
         id: hover
+        onHoveredChanged: {
+            if (hovered) {
+                closeTimer.stop();
+                clockRoot.hoverOpen = true;
+            } else {
+                closeTimer.restart();
+            }
+        }
+    }
+
+    Timer {
+        id: closeTimer
+        interval: 3000
+        onTriggered: clockRoot.hoverOpen = false
     }
 
     TapHandler {
         onTapped: {
             clockRoot.pinned = !clockRoot.pinned;
-            if (clockRoot.pinned) {
+            if (!clockRoot.pinned) {
+                clockRoot.hoverOpen = false;
+            } else {
                 clockRoot.viewMonth = clock.date.getMonth();
                 clockRoot.viewYear = clock.date.getFullYear();
                 clockRoot.selected = clockRoot.iso(clockRoot.viewYear, clockRoot.viewMonth, clock.date.getDate());
@@ -91,9 +109,9 @@ Item {
 
     PopupWindow {
         id: calendarPopup
-        visible: hover.hovered || clockRoot.pinned
+        visible: clockRoot.hoverOpen || clockRoot.pinned
         implicitWidth: 260
-        implicitHeight: content.implicitHeight + 28
+        implicitHeight: 360
         color: "transparent"
 
         anchor.item: clockRoot
@@ -121,11 +139,18 @@ Item {
                     Layout.fillWidth: true
 
                     Text {
+                        Layout.preferredWidth: 28
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         text: "‹"
                         color: Theme.subtext0
                         font.pixelSize: 16
                         font.family: Theme.fontFamily
-                        TapHandler { onTapped: clockRoot.shiftMonth(-1) }
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: clockRoot.shiftMonth(-1)
+                        }
                     }
 
                     Text {
@@ -139,16 +164,46 @@ Item {
                     }
 
                     Text {
+                        Layout.preferredWidth: 28
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
                         text: "›"
                         color: Theme.subtext0
                         font.pixelSize: 16
                         font.family: Theme.fontFamily
-                        TapHandler { onTapped: clockRoot.shiftMonth(1) }
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: clockRoot.shiftMonth(1)
+                        }
+                    }
+
+                    Text {
+                        Layout.preferredWidth: 20
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        text: "✕"
+                        color: closeArea.containsMouse ? Theme.red : Theme.subtext0
+                        font.pixelSize: 12
+                        font.family: Theme.fontFamily
+
+                        MouseArea {
+                            id: closeArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                closeTimer.stop();
+                                clockRoot.pinned = false;
+                                clockRoot.hoverOpen = false;
+                            }
+                        }
                     }
                 }
 
                 Controls.DayOfWeekRow {
                     Layout.fillWidth: true
+                    Layout.maximumHeight: 20
                     locale: grid.locale
 
                     delegate: Text {
@@ -164,10 +219,14 @@ Item {
                 Controls.MonthGrid {
                     id: grid
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 170
+                    Layout.fillHeight: true
                     month: clockRoot.viewMonth
                     year: clockRoot.viewYear
                     locale: Qt.locale("en_US")
+                    onClicked: date => {
+                        clockRoot.pinned = true;
+                        clockRoot.selected = clockRoot.iso(date.getFullYear(), date.getMonth(), date.getDate());
+                    }
 
                     delegate: Item {
                         id: dayDelegate
@@ -205,19 +264,13 @@ Item {
                             anchors.bottom: parent.bottom
                             anchors.bottomMargin: 3
                         }
-
-                        TapHandler {
-                            onTapped: {
-                                clockRoot.selected = dayDelegate.key;
-                                clockRoot.pinned = true;
-                            }
-                        }
                     }
                 }
 
                 ColumnLayout {
-                    visible: clockRoot.selected !== ""
                     Layout.fillWidth: true
+                    Layout.preferredHeight: 80
+                    clip: true
                     spacing: 4
 
                     RowLayout {
@@ -252,6 +305,7 @@ Item {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
+                                    clockRoot.pinned = true;
                                     addProc.command = ["calendario", "agregar", clockRoot.selected];
                                     addProc.running = true;
                                 }
@@ -279,6 +333,10 @@ Item {
                         color: Theme.overlay0
                         font.pixelSize: 11
                         font.family: Theme.fontFamily
+                    }
+
+                    Item {
+                        Layout.fillHeight: true
                     }
                 }
             }
