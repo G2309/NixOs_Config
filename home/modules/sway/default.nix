@@ -21,4 +21,10 @@
       dbusImplementation = "broker";
     };
   };
+
+  xdg.configFile."sway/config".onChange = ''
+    for sock in /run/user/$UID/sway-ipc.*.sock; do
+      [ -S "$sock" ] && ${pkgs.sway}/bin/swaymsg -s "$sock" reload >/dev/null || true
+    done
+  '';
 }

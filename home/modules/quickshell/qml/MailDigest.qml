@@ -17,6 +17,8 @@ Row {
         root.voice = on;
         saveVoice.command = ["sh", "-c", "mkdir -p \"$(dirname \"$1\")\" && printf %s \"$2\" > \"$1\"", "sh", root.voicePath, on ? "1" : "0"];
         saveVoice.running = true;
+        if (!on)
+            Quickshell.execDetached(["pkill", "-x", "pw-play"]);
     }
 
     Rectangle {

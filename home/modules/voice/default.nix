@@ -47,6 +47,9 @@ let
       echo "uso: decir <texto>  (o por stdin)" >&2
       exit 1
     fi
+    if [ "$(${pkgs.coreutils}/bin/cat "$HOME/.local/state/mail-digest/voz" 2>/dev/null)" != 1 ]; then
+      exit 0
+    fi
     RUN="''${XDG_RUNTIME_DIR:-/tmp}"
     exec 9>"$RUN/decir.lock"
     ${pkgs.util-linux}/bin/flock 9

@@ -52,6 +52,7 @@ in
 
       "${mod}+Left" = "exec change-wallpaper";
       "${mod}+g" = "exec change-wallpaper";
+      "${mod}+d" = "exec change-wallpaper";
       "${mod}+Tab" = "exec toggle-quickshell";
 
       "${mod}+v" = "floating toggle";
