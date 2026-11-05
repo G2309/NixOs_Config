@@ -18,6 +18,7 @@ in
     ../modules/dunst
     ../modules/gdrive
     ../modules/quickshell
+    ../modules/calendar
     ../modules/monitor
     ../modules/kdeconnect
     ../modules/mail

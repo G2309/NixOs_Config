@@ -14,6 +14,7 @@ in
     ../modules/dunst
     ../modules/neovim
     ../modules/quickshell
+    ../modules/calendar
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
