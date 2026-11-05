@@ -48,6 +48,13 @@ in
     };
   };
 
+  xdg.configFile."xdg-desktop-portal-wlr/config".text = ''
+    [screencast]
+    output_name=DP-2
+    chooser_type=none
+    max_fps=30
+  '';
+
   home.file.".config/hypr/hyprpaper.conf".text = lib.mkForce ''
   wallpaper {
     monitor = DP-2
