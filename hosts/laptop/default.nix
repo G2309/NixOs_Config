@@ -29,7 +29,7 @@
 
   hardware.nvidia = {
     open = false;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
 
     prime = {
       offload = {
@@ -38,6 +38,20 @@
       };
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
+    };
+  };
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama;
+    host = "127.0.0.1";
+    loadModels = lib.optional (lib.versionAtLeast pkgs.ollama.version "0.40.12") "lfm3:1.7b-qad-q4_0";
+    syncModels = true;
+    environmentVariables = {
+      OLLAMA_CONTEXT_LENGTH = "32768";
+      OLLAMA_KEEP_ALIVE = "5m";
+      OLLAMA_MAX_LOADED_MODELS = "1";
+      OLLAMA_NO_CLOUD = "1";
     };
   };
 
