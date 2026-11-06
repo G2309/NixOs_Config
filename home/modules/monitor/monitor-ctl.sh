@@ -27,7 +27,8 @@ uso: monitor-ctl state
      monitor-ctl refresh
      monitor-ctl set <brightness|contrast|sharpness> <0-100>
      monitor-ctl step <brightness|contrast|sharpness> <+N|-N>
-     monitor-ctl profile <day|night>
+     monitor-ctl profile <day|night|game>
+     monitor-ctl game <on|off>
      monitor-ctl auto
      monitor-ctl resume
 USAGE
@@ -312,7 +313,9 @@ apply_profile() {
   if [ -n "$gamma" ] && cap_has_value 72 "$gamma"; then
     set_code 72 "$((16#$gamma))" || true
   fi
-  set_feature brightness "$(profile_get "$p" brightness)" || return 1
+  if [ -n "$(profile_get "$p" brightness)" ]; then
+    set_feature brightness "$(profile_get "$p" brightness)" || return 1
+  fi
   set_feature contrast "$(profile_get "$p" contrast)" || true
   if [ "$sharpness_supported" = true ]; then
     set_feature sharpness "$(profile_get "$p" sharpness)" || true
@@ -394,14 +397,43 @@ case "$cmd" in
     ;;
   profile)
     [ $# -eq 2 ] || usage
-    case "$2" in day|night) ;; *) usage ;; esac
+    case "$2" in day|night|game) ;; *) usage ;; esac
     prepare
     apply_profile "$2"
     mode=manual
     manual_at=$(now)
     save_state
     ;;
+  game)
+    [ $# -eq 2 ] || usage
+    case "$2" in
+      on)
+        [ "$profile" = game ] && exit 0
+        read -r boundary scheduled <<<"$(last_boundary)"
+        prepare
+        apply_profile game
+        set_feature brightness "$(profile_get "$scheduled" brightness)" || true
+        ;;
+      off)
+        [ "$profile" = game ] || exit 0
+        read -r boundary scheduled <<<"$(last_boundary)"
+        prepare
+        apply_profile "$scheduled"
+        mode=auto
+        manual_at=0
+        ;;
+      *) usage ;;
+    esac
+    save_state
+    ;;
   auto|resume)
+    if [ "$cmd" = auto ] && [ "$profile" = game ]; then
+      read -r boundary scheduled <<<"$(last_boundary)"
+      prepare
+      set_feature brightness "$(profile_get "$scheduled" brightness)" || true
+      save_state
+      exit 0
+    fi
     if [ "$cmd" = resume ]; then
       mode=auto
       manual_at=0

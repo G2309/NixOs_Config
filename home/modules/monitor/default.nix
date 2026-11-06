@@ -52,8 +52,14 @@ let
       colorPreset = "6500K";
       gamma = "2.2";
     };
+    game = {
+      contrast = 80;
+      sharpness = 50;
+      colorPreset = "6500K";
+      gamma = "2.4";
+    };
     night = {
-      brightness = 25;
+      brightness = 35;
       contrast = 70;
       sharpness = 50;
       colorPreset = "user";
@@ -67,7 +73,8 @@ let
   };
 
   profileValues = lib.mapAttrs (_: p: {
-    inherit (p) brightness contrast sharpness;
+    inherit (p) contrast sharpness;
+    brightness = p.brightness or "";
     colorPreset = presetCodes.${p.colorPreset} or "";
     gamma = gammaCodes.${p.gamma} or "";
     gainRed = toString (p.gains.red or "");
@@ -111,7 +118,7 @@ let
           let
             v = p.${feature};
           in
-          lib.optional (v < l.min || v > l.max || lib.mod v l.step != 0) "${pname}.${feature} = ${toString v} (permitido: ${toString l.min}-${toString l.max} en pasos de ${toString l.step})"
+          lib.optional (p ? ${feature} && (v < l.min || v > l.max || lib.mod v l.step != 0)) "${pname}.${feature} = ${toString v} (permitido: ${toString l.min}-${toString l.max} en pasos de ${toString l.step})"
         ) limits
       )
     ) profiles

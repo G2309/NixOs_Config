@@ -55,6 +55,12 @@ let
       return 1
     }
 
+    monitor_game() {
+      if command -v monitor-ctl >/dev/null; then
+        setsid -f monitor-ctl game "$1" >/dev/null 2>&1 || true
+      fi
+    }
+
     apply() {
       local want_vrr=off
       if [ "$1" = high ]; then
@@ -63,12 +69,14 @@ let
       plan "$1" | while IFS=$'\t' read -r name mode cur sel vrr; do
         if vrr_capable "$name" && [ "$want_vrr" = off ] && [ "$vrr" = enabled ]; then
           swaymsg -q output "$name" adaptive_sync off || true
+          monitor_game off
         fi
         if [ "$cur" != "$sel" ]; then
           swaymsg -q output "$name" mode "$mode" || true
         fi
         if vrr_capable "$name" && [ "$want_vrr" = on ] && [ "$vrr" != enabled ]; then
           swaymsg -q output "$name" adaptive_sync on || true
+          monitor_game on
         fi
       done
     }
