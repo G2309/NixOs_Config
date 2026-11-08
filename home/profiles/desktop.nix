@@ -23,6 +23,7 @@ in
     ../modules/kdeconnect
     ../modules/mail
     ../modules/voice
+    ../modules/rss
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [

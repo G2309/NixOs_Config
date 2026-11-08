@@ -18,19 +18,6 @@
       # Sin sección gpu: gpu_device=0 apuntaba a /sys/class/drm/card0 (no existe,
       # la 3080 es card1) y las optimizaciones NVIDIA de gamemode usan
       # nvidia-settings, que no funciona en Wayland.
-      custom = {
-        # gamemoded corre como servicio de systemd sin coreutils en el PATH.
-        start = toString (
-          pkgs.writeShellScript "gamemode-refresh-start" ''
-            ${pkgs.coreutils}/bin/touch "''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}/refresh-rate.gaming"
-          ''
-        );
-        end = toString (
-          pkgs.writeShellScript "gamemode-refresh-end" ''
-            ${pkgs.coreutils}/bin/rm -f "''${XDG_RUNTIME_DIR:-/run/user/$(${pkgs.coreutils}/bin/id -u)}/refresh-rate.gaming"
-          ''
-        );
-      };
     };
   };
 }

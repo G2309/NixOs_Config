@@ -22,7 +22,6 @@ let
 
     STATE_DIR="''${XDG_RUNTIME_DIR:-/tmp}"
     MODE_FILE="$STATE_DIR/refresh-rate.mode"
-    GAMING_FILE="$STATE_DIR/refresh-rate.gaming"
     LOW_HZ="''${REFRESH_LOW_HZ:-60}"
     VRR_OUTPUTS=${lib.escapeShellArg (lib.concatStringsSep " " vrrOutputs)}
 
@@ -82,9 +81,6 @@ let
     }
 
     gaming() {
-      if [ -e "$GAMING_FILE" ]; then
-        return 0
-      fi
       swaymsg -r -t get_tree | ${jq} -e '
         [ recurse(.nodes[]?, .floating_nodes[]?)
           | select(((.fullscreen_mode // 0) != 0) and (.visible // false)) ] | length > 0
