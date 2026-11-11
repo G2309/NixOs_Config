@@ -7,6 +7,7 @@ Row {
 
     property bool available: false
     property bool voice: false
+    property bool voiceAvailable: false
     readonly property bool busy: digest.running
     readonly property string voicePath: Quickshell.env("HOME") + "/.local/state/mail-digest/voz"
 
@@ -57,13 +58,14 @@ Row {
             onClicked: {
                 if (root.busy)
                     return;
-                digest.command = root.voice ? ["mail-digest", "--voz"] : ["mail-digest"];
+                digest.command = root.voice && root.voiceAvailable ? ["mail-digest", "--voz"] : ["mail-digest"];
                 digest.running = true;
             }
         }
     }
 
     Rectangle {
+        visible: root.voiceAvailable
         width: 14
         height: 12
         radius: 4
@@ -109,5 +111,11 @@ Row {
         running: true
         command: ["sh", "-c", "command -v mail-digest"]
         onExited: code => root.available = code === 0
+    }
+
+    Process {
+        running: true
+        command: ["sh", "-c", "command -v decir"]
+        onExited: code => root.voiceAvailable = code === 0
     }
 }

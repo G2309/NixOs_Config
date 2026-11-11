@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./packages.nix
     ../../modules/nixos/nvidia.nix
+    ../../modules/nixos/keyring.nix
   ];
 
   services = {
@@ -45,7 +46,9 @@
     enable = true;
     package = pkgs.ollama;
     host = "127.0.0.1";
-    loadModels = lib.optional (lib.versionAtLeast pkgs.ollama.version "0.40.12") "lfm3:1.7b-qad-q4_0";
+    loadModels =
+      let m = import ../../home/modules/local-model.nix "laptop"; in
+      [ m.fim ] ++ lib.optional (lib.versionAtLeast pkgs.ollama.version "0.40.12") m.chat;
     syncModels = true;
     environmentVariables = {
       OLLAMA_CONTEXT_LENGTH = "32768";

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, hostname, ... }:
 
 {
   programs.neovim = {
@@ -9,7 +9,7 @@
         plugin = minuet-ai-nvim;
         type = "lua";
         config = ''
-          local modelo = "qwen2.5-coder:3b-base"
+          local modelo = "${(import ../../local-model.nix hostname).fim}"
 
           require("minuet").setup({
             provider = "openai_fim_compatible",

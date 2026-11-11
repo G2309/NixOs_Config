@@ -7,6 +7,7 @@ import imaplib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import urllib.request
@@ -256,7 +257,7 @@ def main():
             print(reply)
         else:
             notify("Correo", html.escape(reply), "normal", nid)
-        if args.voz:
+        if args.voz and shutil.which("decir"):
             subprocess.run(["decir", reply])
         return 0
 
@@ -277,7 +278,7 @@ def main():
             print(line)
         for e in errors:
             print("! " + e)
-        if args.voz:
+        if args.voz and shutil.which("decir"):
             subprocess.run(["decir", speech(len(mails), groups)])
         return 0
 
@@ -293,7 +294,7 @@ def main():
     body += ["⚠ " + html.escape(e) for e in errors]
     urgent = any(cat == "urgente" for cat, _ in lines)
     notify(title, "\n".join(body), "critical" if urgent else "normal", nid)
-    if args.voz:
+    if args.voz and shutil.which("decir"):
         subprocess.run(["decir", speech(len(mails), groups)])
     return 0
 

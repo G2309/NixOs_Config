@@ -1,5 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, hostname, ... }:
 let
+  model = (import ../local-model.nix hostname).chat;
+
   resumirPy = pkgs.writers.writePython3 "resumir.py" {
     flakeIgnore = [ "E501" ];
   } (builtins.readFile ./resumir.py);
@@ -7,7 +9,7 @@ let
   resumir = pkgs.writeShellScriptBin "resumir" ''
     export PATH=${pkgs.poppler-utils}/bin:$PATH
     export OLLAMA_URL=http://127.0.0.1:11434
-    export OLLAMA_MODEL=qwen3.5:4b
+    export OLLAMA_MODEL=${model}
     exec ${resumirPy} "$@"
   '';
 in
@@ -22,6 +24,18 @@ in
     autoReload = true;
     reloadTime = 60;
     browser = "xdg-open %u";
+    urls = [
+      { url = "https://github.com/NVIDIA/open-gpu-kernel-modules/releases.atom"; tags = [ "nvidia" "drivers" ]; title = "NVIDIA drivers"; }
+      { url = "https://nvidianews.nvidia.com/releases.xml"; tags = [ "nvidia" ]; title = "NVIDIA news"; }
+      { url = "https://developer.nvidia.com/blog/feed"; tags = [ "nvidia" ]; title = "NVIDIA developer blog"; }
+      { url = "https://github.com/GloriousEggroll/proton-ge-custom/releases.atom"; tags = [ "gaming" "proton" ]; title = "GE-Proton"; }
+      { url = "https://github.com/ValveSoftware/Proton/releases.atom"; tags = [ "gaming" "proton" ]; title = "Proton (Valve)"; }
+      { url = "https://github.com/doitsujin/dxvk/releases.atom"; tags = [ "gaming" "proton" ]; title = "DXVK"; }
+      { url = "https://github.com/HansKristian-Work/vkd3d-proton/releases.atom"; tags = [ "gaming" "proton" ]; title = "VKD3D-Proton"; }
+      { url = "https://www.gamingonlinux.com/article_rss.php"; tags = [ "gaming" "linux" ]; title = "GamingOnLinux"; }
+      { url = "https://www.phoronix.com/rss.php"; tags = [ "linux" ]; title = "Phoronix"; }
+      { url = "https://nixos.org/blog/announcements-rss.xml"; tags = [ "linux" "nixos" ]; title = "NixOS"; }
+    ];
     extraConfig = ''
       bind-key j down
       bind-key k up

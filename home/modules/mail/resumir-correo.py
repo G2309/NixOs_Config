@@ -3,6 +3,7 @@ import html
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import urllib.request
@@ -67,7 +68,7 @@ def main():
         print("\nError con ollama: %s" % e)
         return 1
     print()
-    if voz:
+    if voz and shutil.which("decir"):
         text = re.sub(r"[*_`#]", "", "".join(summary))
         text = re.sub(r"(?m)^\s*[-•]\s*", "", text).replace("Accion:", "Acción:")
         subprocess.run(["decir", text])

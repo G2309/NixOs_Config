@@ -1,5 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostname, ... }:
 let
+  model = (import ../local-model.nix hostname).chat;
+
   accounts = [
     {
       name = "gmail";
@@ -25,7 +27,7 @@ let
   secretLookup = a: "${pkgs.libsecret}/bin/secret-tool lookup service mail account ${a.address}";
 
   digestConfig = builtins.toJSON {
-    model = "qwen3.5:4b";
+    inherit model;
     ollama = "http://127.0.0.1:11434";
     accounts = map (a: { inherit (a) name address host port auth; }) accounts;
   };
@@ -46,7 +48,7 @@ let
 
   resumir-correo = pkgs.writeShellScriptBin "resumir-correo" ''
     export OLLAMA_URL=http://127.0.0.1:11434
-    export OLLAMA_MODEL=qwen3.5:4b
+    export OLLAMA_MODEL=${model}
     exec ${resumirPy} "$@"
   '';
 
