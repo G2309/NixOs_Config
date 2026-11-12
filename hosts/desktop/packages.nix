@@ -21,7 +21,12 @@
     uv
     gh
     ffmpeg
+    google-chrome
+    bun
+    texliveFull
   ];
+
+  home-manager.users.gustavo.home.sessionVariables.CHROME_EXECUTABLE = "${pkgs.google-chrome}/bin/google-chrome-stable";
 
   home-manager.users.gustavo.programs.neovim.plugins = [
     {
