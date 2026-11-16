@@ -55,7 +55,7 @@ in
     gpus:
       ${gpu}:
         fan_control_enabled: false
-        power_cap: 215.0
+        power_cap: 230.0
         min_core_clock: 210
         max_core_clock: 1800
         gpu_clock_offsets:
