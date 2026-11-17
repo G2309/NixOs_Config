@@ -19,6 +19,8 @@
     fish
   ];
 
+  programs.gpu-screen-recorder.enable = true;
+
   # Paquetes de home-manager compartidos entre todos los hosts.
   home-manager.users.gustavo.home.packages = with pkgs; [
     firefox

@@ -151,6 +151,88 @@ let
     ${pkgs.grim}/bin/grim -g "$GEOM" - | ${pkgs.wl-clipboard}/bin/wl-copy
     ${pkgs.libnotify}/bin/notify-send "Captura" "Region copiada al portapapeles" || true
   '';
+
+  grabar = pkgs.writeShellScriptBin "grabar" ''
+    set -u
+    RUN="''${XDG_RUNTIME_DIR:-/tmp}"
+    PIDF="$RUN/grabar.pid"
+    STATE="$RUN/grabar.json"
+    LOG="$RUN/grabar.log"
+    OUT="$HOME/Videos/Grabaciones"
+    JQ=${pkgs.jq}/bin/jq
+
+    notify() { ${pkgs.libnotify}/bin/notify-send -a Grabar "$@" || true; }
+    activo() { [ -f "$PIDF" ] && kill -0 "$(cat "$PIDF")" 2>/dev/null; }
+
+    salida_enfocada() {
+      local s
+      s=$(swaymsg -t get_outputs -r 2>/dev/null | $JQ -r '.[] | select(.focused).name' 2>/dev/null)
+      [ -z "$s" ] && s=$(hyprctl monitors -j 2>/dev/null | $JQ -r '.[] | select(.focused).name' 2>/dev/null)
+      [ -z "$s" ] && s=$(gpu-screen-recorder --list-capture-options 2>/dev/null | head -1 | cut -d'|' -f1)
+      echo "$s" | head -1
+    }
+
+    case "''${1:-}" in
+      start)
+        activo && exit 0
+        modo=''${2:-pantalla}
+        mic=''${3:-no}
+        sistema=''${4:-si}
+
+        if [ "$modo" = region ]; then
+          geom=$(${pkgs.slurp}/bin/slurp -f "%wx%h+%x+%y") || exit 0
+          captura=(-w region -region "$geom")
+        else
+          captura=(-w "$(salida_enfocada)")
+        fi
+
+        fuentes=()
+        [ "$sistema" = si ] && fuentes+=(default_output)
+        [ "$mic" = si ] && fuentes+=(default_input)
+        audio=()
+        if [ "''${#fuentes[@]}" -gt 0 ]; then
+          audio=(-a "$(IFS='|'; echo "''${fuentes[*]}")")
+        fi
+
+        mkdir -p "$OUT"
+        file="$OUT/$(date +%Y-%m-%d_%H-%M-%S).mp4"
+        inicio=$(date +%s)
+        ${pkgs.util-linux}/bin/setsid gpu-screen-recorder "''${captura[@]}" "''${audio[@]}" \
+          -c mp4 -k h264 -f 60 -o "$file" > "$LOG" 2>&1 &
+        echo $! > "$PIDF"
+        sleep 1
+        if ! activo; then
+          rm -f "$PIDF" "$STATE"
+          notify -u critical "No se pudo grabar" "$(tail -3 "$LOG")"
+          exit 1
+        fi
+        $JQ -n --argjson start "$inicio" --arg file "$file" '{recording: true, start: $start, file: $file}' > "$STATE"
+        ;;
+      stop)
+        if ! activo; then
+          rm -f "$PIDF" "$STATE"
+          exit 0
+        fi
+        pid=$(cat "$PIDF")
+        file=$($JQ -r .file "$STATE" 2>/dev/null)
+        kill -INT "$pid"
+        for _ in $(seq 50); do
+          kill -0 "$pid" 2>/dev/null || break
+          sleep 0.2
+        done
+        if kill -0 "$pid" 2>/dev/null; then
+          notify -u critical "Grabar" "El grabador no se detuvo, revisa $LOG"
+          exit 1
+        fi
+        rm -f "$PIDF" "$STATE"
+        notify "Grabacion guardada" "$file"
+        ;;
+      *)
+        echo "uso: grabar start <region|pantalla> <mic si|no> <sistema si|no> | grabar stop" >&2
+        exit 2
+        ;;
+    esac
+  '';
 in
 {
   home.packages = map (c: pkgs.catppuccin-cursors.${"macchiato" + c}) [
@@ -162,6 +244,7 @@ in
     toggle-quickshell
     screenshot-full
     screenshot-area
+    grabar
     pkgs.jq
   ];
 }

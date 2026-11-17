@@ -69,6 +69,7 @@ PanelWindow {
         }
         spacing: 16
 
+        Recorder {}
         Tray {}
         Volume {}
         Brightness {}
