@@ -19,7 +19,10 @@
     fish
   ];
 
-  programs.gpu-screen-recorder.enable = true;
+  programs.gpu-screen-recorder = {
+    enable = true;
+    package = pkgs.gpu-screen-recorder.override { ffmpeg = pkgs.ffmpeg_8; };
+  };
 
   # Paquetes de home-manager compartidos entre todos los hosts.
   home-manager.users.gustavo.home.packages = with pkgs; [

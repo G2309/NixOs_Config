@@ -55,12 +55,12 @@ Item {
 
     RowLayout {
         id: row
-        spacing: 6
+        spacing: 3
 
         Text {
             text: "󰑊"
             color: root.recording ? Theme.red : Theme.subtext0
-            font.pixelSize: 15
+            font.pixelSize: 11
             font.family: Theme.fontFamily
         }
 
@@ -68,7 +68,7 @@ Item {
             visible: root.recording
             text: root.elapsed()
             color: Theme.red
-            font.pixelSize: 13
+            font.pixelSize: 9
             font.family: Theme.fontFamily
         }
     }

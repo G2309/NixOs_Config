@@ -181,7 +181,7 @@ let
 
         if [ "$modo" = region ]; then
           geom=$(${pkgs.slurp}/bin/slurp -f "%wx%h+%x+%y") || exit 0
-          captura=(-w region -region "$geom")
+          captura=(-w "$geom")
         else
           captura=(-w "$(salida_enfocada)")
         fi
@@ -198,7 +198,7 @@ let
         file="$OUT/$(date +%Y-%m-%d_%H-%M-%S).mp4"
         inicio=$(date +%s)
         ${pkgs.util-linux}/bin/setsid gpu-screen-recorder "''${captura[@]}" "''${audio[@]}" \
-          -c mp4 -k h264 -f 60 -o "$file" > "$LOG" 2>&1 &
+          -c mp4 -k h264 -ac aac -f 60 -o "$file" > "$LOG" 2>&1 &
         echo $! > "$PIDF"
         sleep 1
         if ! activo; then

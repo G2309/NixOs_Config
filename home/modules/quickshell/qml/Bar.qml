@@ -69,15 +69,23 @@ PanelWindow {
         }
         spacing: 16
 
-        Recorder {}
         Tray {}
         Volume {}
         Brightness {}
         Column {
             spacing: 1
 
-            NetworkIndicator {
+            Row {
                 anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 6
+
+                NetworkIndicator {
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Recorder {
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
 
             MailDigest {
