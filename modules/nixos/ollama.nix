@@ -9,7 +9,7 @@
       enable = true;
       package = pkgs.ollama-cuda;
       host = "127.0.0.1";
-      loadModels = [ "qwen2.5-coder:3b-base" "qwen3.5:4b" ]
+      loadModels = [ (import ../../home/modules/local-model.nix "desktop").fim "qwen3.5:4b" ]
         ++ lib.optionals (lib.versionAtLeast config.services.ollama.package.version "0.40.12") [
           "lfm3:1.7b-q8_0"
           "hf.co/AtomicChat/LFM3-1.7B-Uncensored-GGUF:Q6_K"

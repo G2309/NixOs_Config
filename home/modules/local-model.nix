@@ -7,5 +7,5 @@ if hostname == "laptop" then
 else
   {
     chat = "qwen3.5:4b";
-    fim = "qwen2.5-coder:3b-base";
+    fim = "qwen2.5-coder:7b-base";
   }

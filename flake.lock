@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794886978,
-        "narHash": "sha256-wZDTo/oIczajI5dzUjCor3YFxer54vWddBAaXycfOok=",
+        "lastModified": 1794953424,
+        "narHash": "sha256-Yl76Xg8M7d5ecnS3JmRds8rT7j1W3chGpcKteoEr3S8=",
         "owner": "G2309",
         "repo": "ani-cliES",
-        "rev": "26e25770976f08950e1fa6a1a33fa884c8a82927",
+        "rev": "7fd439cc9cf4fec5000923ecc16dabf770965800",
         "type": "github"
       },
       "original": {
