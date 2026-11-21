@@ -24,6 +24,7 @@ in
     ../modules/mail
     ../modules/voice
     ../modules/rss
+    ../modules/opencode
   ];
 
   wayland.windowManager.hyprland.settings.monitor = lib.mkForce [
