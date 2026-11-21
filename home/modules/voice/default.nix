@@ -36,6 +36,8 @@ let
     exec "$@" -ngl 0 --no-mmproj-offload 2>>"$LOG"
   '';
 
+  # navi = inputs.navi-mcp.packages.${pkgs.stdenv.hostPlatform.system}.navi;
+
   decir = pkgs.writeShellScriptBin "decir" ''
     set -u
     if [ "$#" -gt 0 ]; then
@@ -109,6 +111,7 @@ let
           mail-digest --pregunta "$TEXT" --voz
           exit 0
         fi
+        # ANS=$(''${navi}/bin/navi "$TEXT" | sed 's/[*_`#]//g')
         ANS=$(jq -n --arg q "$TEXT" '{
             model: "qwen3.5:4b", stream: false, think: false, keep_alive: "2m",
             options: { temperature: 0.3, num_ctx: 8192 },
@@ -135,6 +138,7 @@ in
     decir
     voz-asistente
     llamaCpp
+    # navi
   ];
 
   wayland.windowManager.sway.extraConfig = ''

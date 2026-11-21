@@ -28,6 +28,7 @@
     };
     claude-code.url = "github:ryoppippi/nix-claude-code";
     opencode.url = "github:AodhanHayter/opencode-flake";
+    # navi-mcp.url = "path:/home/gustavo/Progra/Navi_MCP";
   };
 
   outputs = { self, nixpkgs, home-manager, catppuccin, silentSDDM, lsfg-vk-flake, anicli-es, spicetify-nix, claude-code, opencode, ... }@inputs:

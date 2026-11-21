@@ -17,7 +17,7 @@
             context_window = 6000,
             throttle = 400,
             debounce = 250,
-            request_timeout = 3,
+            request_timeout = 8,
             notify = "error",
             provider_options = {
               openai_fim_compatible = {
@@ -47,6 +47,22 @@
 
           vim.g.ia_autocompletado = true
 
+          local function ollama(keep_alive)
+            vim.system({
+              "curl", "-s", "http://127.0.0.1:11434/api/generate",
+              "-d", vim.json.encode({ model = modelo, keep_alive = keep_alive }),
+            })
+          end
+
+          vim.api.nvim_create_autocmd("InsertEnter", {
+            group = vim.api.nvim_create_augroup("IaPrecarga", { clear = true }),
+            callback = function()
+              if vim.g.ia_autocompletado then
+                ollama("5m")
+              end
+            end,
+          })
+
           _G.estado_ia = function()
             return vim.g.ia_autocompletado and "IA: on" or "IA: off"
           end
@@ -71,12 +87,11 @@
                 aplicar(buf)
               end
             end
-            if not vim.g.ia_autocompletado then
+            if vim.g.ia_autocompletado then
+              ollama("5m")
+            else
               pcall(require("minuet.virtualtext").action.dismiss)
-              vim.system({
-                "curl", "-s", "http://127.0.0.1:11434/api/generate",
-                "-d", vim.json.encode({ model = modelo, keep_alive = 0 }),
-              })
+              ollama(0)
             end
             vim.notify("Autocompletado IA: " .. (vim.g.ia_autocompletado and "encendido" or "apagado"))
             pcall(function()
