@@ -1,7 +1,7 @@
 ---
 description: Componentes, estilos, accesibilidad y estado de UI en React o Flutter
 mode: subagent
-model: opencode-go/kimi-k2.7-code
+model: opencode-go/deepseek-v4.1-flash
 permission:
   playwright_*: allow
 ---

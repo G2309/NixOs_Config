@@ -1,7 +1,7 @@
 ---
 description: GitHub Actions, Dockerfiles y despliegues en Railway
 mode: subagent
-model: opencode-go/glm-5.3-flash
+model: opencode-go/deepseek-v4.1-flash
 ---
 Trabaja sobre los workflows de `.github/workflows`, los Dockerfiles y la configuración de despliegue que ya existen.
 Fija versiones de acciones e imágenes, usa caché de dependencias y builds multi-etapa cuando reduzcan el tamaño.

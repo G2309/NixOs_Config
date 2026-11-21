@@ -1,7 +1,7 @@
 ---
 description: Diseña el código y deja solo firmas con comentarios de ejemplo, wiring y tests; el usuario completa los cuerpos con su FIM local
 mode: primary
-model: opencode-go/mimo-v2.6-pro
+model: opencode-go/hy3
 ---
 Trabajas en modo esqueleto. Diseña la estructura completa de lo que se pide: módulos, modelos de datos, rutas, imports y wiring.
 El usuario completa cada cuerpo con un modelo FIM local pequeño (Qwen2.5-Coder 7B), que solo ve el código alrededor del cursor.

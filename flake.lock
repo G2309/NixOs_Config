@@ -97,21 +97,6 @@
         "type": "github"
       }
     },
-    "navi-mcp": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_3"
-      },
-      "locked": {
-        "lastModified": 1795236391,
-        "narHash": "sha256-IjtnTi9z7kyxpK+bvzEoevXZD4aO1uBDCXSNIE3NfqQ=",
-        "path": "/home/gustavo/Progra/Navi_MCP",
-        "type": "path"
-      },
-      "original": {
-        "path": "/home/gustavo/Progra/Navi_MCP",
-        "type": "path"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1793826729,
@@ -159,22 +144,6 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1793726008,
-        "narHash": "sha256-jQp1wKvbwWdLBASTXkSi/VYmDJ5AbBi1WvcMt9HWJC8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "1d060086d60cb76a40cf37109f979d88a5bd6396",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_4": {
-      "locked": {
         "lastModified": 1794042290,
         "narHash": "sha256-ziZn2PvCJE5JEEpqTdxXwJpPB+L3YqoCpTAMCzyaP3U=",
         "owner": "nixos",
@@ -189,7 +158,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_5": {
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1756288264,
         "narHash": "sha256-Om8adB1lfkU7D33VpR+/haZ2gI5r3Q+ZbIPzE5sYnwE=",
@@ -207,7 +176,7 @@
     },
     "opencode": {
       "inputs": {
-        "nixpkgs": "nixpkgs_5"
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1771442093,
@@ -230,8 +199,7 @@
         "claude-code": "claude-code",
         "home-manager": "home-manager",
         "lsfg-vk-flake": "lsfg-vk-flake",
-        "navi-mcp": "navi-mcp",
-        "nixpkgs": "nixpkgs_4",
+        "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "opencode": "opencode",
         "silentSDDM": "silentSDDM",

@@ -1,7 +1,7 @@
 ---
 description: Escribe o arregla tests y explica por qué fallan
 mode: subagent
-model: opencode-go/deepseek-v4-pro
+model: opencode-go/deepseek-v4.1-flash
 ---
 Usa el framework de tests que ya tiene el proyecto (pytest, flutter_test, vitest, jest).
 Prueba comportamiento, no implementación: casos normales, bordes y errores esperados.
