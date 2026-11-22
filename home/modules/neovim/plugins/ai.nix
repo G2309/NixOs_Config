@@ -11,6 +11,32 @@
         config = ''
           local modelo = "${(import ../../local-model.nix hostname).fim}"
 
+          local function sin_pendientes(texto)
+            local out = {}
+            for linea in (texto .. "\n"):gmatch("(.-)\n") do
+              local firma
+              if linea:match("^%s*raise NotImplementedError") then
+                for i = #out, math.max(1, #out - 5), -1 do
+                  if out[i]:match("^%s*def%s") or out[i]:match("^%s*async%s+def%s") then
+                    firma = i
+                    break
+                  end
+                end
+              end
+              if firma then
+                for _ = #out, firma, -1 do
+                  table.remove(out)
+                end
+                while #out > 0 and (out[#out]:match("^%s*#") or out[#out]:match("^%s*@")) do
+                  table.remove(out)
+                end
+              else
+                table.insert(out, linea)
+              end
+            end
+            return table.concat(out, "\n")
+          end
+
           require("minuet").setup({
             provider = "openai_fim_compatible",
             n_completions = 1,
@@ -26,9 +52,19 @@
                 end_point = "http://127.0.0.1:11434/v1/completions",
                 model = modelo,
                 stream = true,
+                template = {
+                  prompt = function(antes, _, _)
+                    local utils = require("minuet.utils")
+                    return utils.add_language_comment() .. "\n" .. utils.add_tab_comment() .. "\n" .. sin_pendientes(antes)
+                  end,
+                  suffix = function(_, despues, _)
+                    return sin_pendientes(despues)
+                  end,
+                },
                 optional = {
                   max_tokens = 64,
                   top_p = 0.9,
+                  stop = { "\n\n\n" },
                 },
               },
             },
@@ -38,6 +74,7 @@
               keymap = {
                 accept = "<A-a>",
                 accept_line = "<A-l>",
+                accept_n_lines = "<A-n>",
                 next = "<A-]>",
                 prev = "<A-[>",
                 dismiss = "<A-e>",
