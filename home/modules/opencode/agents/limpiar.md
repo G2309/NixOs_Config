@@ -1,7 +1,7 @@
 ---
 description: Reduce a una línea los comentarios del esqueleto en las funciones ya terminadas; no toca código ni funciones pendientes
 mode: subagent
-model: opencode-go/deepseek-v4.1-flash
+model: opencode-go/hy4-flash-free
 ---
 Limpias los comentarios que dejó el modo esqueleto en los archivos que te indiquen (o en los modificados según `git status` si no te dicen cuáles).
 

@@ -63,7 +63,7 @@ in
   xdg.configFile = {
     "opencode/opencode.json".text = builtins.toJSON {
       "$schema" = "https://opencode.ai/config.json";
-      model = "opencode-go/hy3";
+      model = "opencode-go/deepseek-v4.1-flash";
       small_model = "opencode-go/hy4-flash-free";
       permission = {
         bash = {

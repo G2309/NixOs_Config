@@ -26,7 +26,9 @@ si dudas del ID exacto, consulta `https://opencode.ai/inference/go/v1/models`.
 - Las promociones no cuentan: si un modelo tiene límite o descuento temporal, evalúalo con su límite normal.
   Si ese límite normal no se conoce, no lo asignes.
 - No cambies un agente por una diferencia de 1 o 2 puntos en un benchmark.
-- No uses modelos "Free" ni "Contributor" para agentes fijos: pueden desaparecer o entrenar con los datos.
+- Nunca uses modelos "Contributor": entrenan con los datos.
+- Los modelos "Free" solo valen para `@docs` y `@limpiar` (el usuario lo aceptó); si el Free que usan ya no existe,
+  reemplázalo por el modelo pagado más barato que cumpla el nivel Abundante. Para los demás agentes no uses modelos Free.
 - Si necesitas datos de calidad, consulta como máximo 3 fuentes, por ejemplo `https://www.morphllm.com/swe-bench-pro`.
   Si un modelo no tiene datos confiables, dilo y no lo asignes a niveles Diario o superiores.
 
